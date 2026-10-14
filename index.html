@@ -1,0 +1,1358 @@
+<title>Mapa de carreras en finanzas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: árbol vertical que se despliega de lo general (sector) a lo concreto (puesto),
+   con cabecera grabada tipo título-valor y fichas de puesto que se abren en línea. */
+:root{
+  --paper:#EDF1EE; --surface:#F8FAF8; --sunk:#E3E9E5; --ink:#14201A; --muted:#55645C;
+  --rule:#C9D3CD; --rule-soft:#DCE4DF;
+  --accent:#1C6A4E; --accent-ink:#F4FAF6; --brass:#8F6C1C;
+  --v-obj:#1B7A50; --v-amb:#946E10; --v-planb:#36628A; --v-lej:#727C76; --v-evi:#A1453A;
+  --f-display:"Libre Caslon Text", Georgia, "Times New Roman", serif;
+  --f-body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1512; --surface:#151F1A; --sunk:#1B2721; --ink:#E1E9E4; --muted:#93A39A;
+    --rule:#2D3B34; --rule-soft:#223029;
+    --accent:#5BBF94; --accent-ink:#0B1410; --brass:#D6B060;
+    --v-obj:#4FC48C; --v-amb:#E0B24C; --v-planb:#86AED4; --v-lej:#8F9A94; --v-evi:#E57E6F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1512; --surface:#151F1A; --sunk:#1B2721; --ink:#E1E9E4; --muted:#93A39A;
+  --rule:#2D3B34; --rule-soft:#223029;
+  --accent:#5BBF94; --accent-ink:#0B1410; --brass:#D6B060;
+  --v-obj:#4FC48C; --v-amb:#E0B24C; --v-planb:#86AED4; --v-lej:#8F9A94; --v-evi:#E57E6F;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;text-wrap:balance;margin:0}
+h4{font-family:var(--f-mono);font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.mono{font-family:var(--f-mono)}
+.num{font-variant-numeric:tabular-nums}
+
+/* Cabecera */
+.masthead{position:relative;overflow:hidden;border-bottom:1px solid var(--rule)}
+.masthead .wrap{position:relative;padding-block:36px 28px;display:grid;gap:20px}
+#guilloche{position:absolute;right:-40px;top:-30px;width:340px;height:340px;pointer-events:none;opacity:.9}
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass)}
+.masthead h1{font-size:clamp(32px,5.4vw,54px);line-height:1.04;max-width:14ch;position:relative}
+.masthead h1 em{font-style:italic;color:var(--accent)}
+.lede{max-width:62ch;color:var(--muted);font-size:16px;position:relative}
+.profile{position:relative;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:12px 28px;background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:16px 18px;max-width:880px}
+.profile h4{margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:13px;padding:3px 9px;border:1px solid var(--rule);border-radius:999px;background:var(--paper);white-space:nowrap}
+.chip.want{border-color:color-mix(in srgb,var(--accent) 45%,transparent);color:var(--accent)}
+.chip.no{text-decoration:line-through;color:var(--muted)}
+
+/* Pestañas */
+.tabs{position:sticky;top:env(safe-area-inset-top, 0px);z-index:5;background:var(--paper);border-bottom:1px solid var(--rule)}
+.tabs .wrap{display:flex;gap:4px;overflow-x:auto}
+.tab{background:none;border:0;padding:12px 14px 11px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;font-weight:500;white-space:nowrap}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab:hover{color:var(--ink)}
+
+main .wrap{padding-block:28px 64px}
+section.view{display:grid;gap:28px}
+.sec-title{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sec-title h2{font-size:26px}
+.sec-title p{color:var(--muted);font-size:14px;max-width:60ch}
+
+/* Leyenda */
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.lg{display:grid;gap:4px;padding:10px 12px;border:1px solid var(--rule-soft);border-radius:6px;background:var(--surface)}
+.lg p{font-size:13px;color:var(--muted)}
+.offices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.off{padding:12px 14px;border-top:3px solid var(--rule);background:var(--surface);border-radius:0 0 6px 6px}
+.off.front{border-top-color:var(--accent)}
+.off.middle{border-top-color:var(--v-planb)}
+.off.back{border-top-color:var(--v-evi)}
+.off h3{font-size:18px;margin-bottom:4px}
+.off p{font-size:13.5px;color:var(--muted)}
+
+/* Pills y medidores */
+.pill{--c:var(--v-lej);display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;line-height:1;padding:5px 9px;border-radius:999px;color:var(--c);background:color-mix(in srgb,var(--c) 13%,transparent);border:1px solid color-mix(in srgb,var(--c) 35%,transparent);white-space:nowrap}
+.col-h .pill,.lg .pill,.tier .pill{justify-self:start;width:max-content}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c)}
+.v-objetivo{--c:var(--v-obj)} .v-ambicioso{--c:var(--v-amb)} .v-plan-b{--c:var(--v-planb)} .v-lejano{--c:var(--v-lej)} .v-evitar{--c:var(--v-evi)}
+button.pill{cursor:pointer}
+button.pill[aria-pressed="false"]{background:transparent;color:var(--muted);border-style:dashed;border-color:var(--rule)}
+button.pill[aria-pressed="false"]::before{background:var(--rule)}
+.dots{display:inline-flex;gap:3px;vertical-align:middle}
+.dots i{width:8px;height:8px;border-radius:2px;background:var(--rule)}
+.dots i.on{background:var(--ink)}
+.dots.acc i.on{background:var(--muted)}
+
+/* Shortlist */
+.short{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.col{display:grid;align-content:start;gap:8px;min-width:0}
+.col-h{display:grid;gap:4px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.col-h p{font-size:13px;color:var(--muted)}
+.go{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:center;text-align:left;width:100%;background:var(--surface);border:1px solid var(--rule-soft);border-radius:6px;padding:9px 11px;cursor:pointer}
+.go:hover{border-color:var(--accent)}
+.go b{font-weight:500;font-size:14px;line-height:1.3}
+.go small{grid-column:1;color:var(--muted);font-size:12px}
+.go .dots{grid-row:1 / span 2;grid-column:2}
+.saved-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.saved-row .go{width:auto;display:inline-flex;gap:8px}
+
+/* Controles */
+.controls{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;padding:12px;border:1px solid var(--rule);border-radius:6px;background:var(--surface)}
+.search{flex:1 1 240px;min-width:0;display:flex}
+.search input{width:100%;min-width:0;font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--rule);border-radius:4px;background:var(--paper);color:var(--ink)}
+.vf{display:flex;flex-wrap:wrap;gap:6px}
+.toggles{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px}
+.toggles label{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+.toggles input{accent-color:var(--accent)}
+.btn{background:transparent;border:1px solid var(--rule);border-radius:4px;padding:6px 10px;font-size:13px;cursor:pointer}
+.btn:hover{border-color:var(--ink)}
+.result-count{font-size:13px;color:var(--muted)}
+
+/* Árbol */
+.tree,.tree ul{list-style:none;margin:0;padding:0}
+.tree{display:grid;gap:10px}
+.tree ul{display:grid;gap:4px}
+.kids{margin-left:15px;padding-left:16px;border-left:1px solid var(--rule);padding-block:6px 4px;display:grid;gap:8px}
+.node{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;padding:8px 6px;cursor:pointer;border-radius:5px;flex-wrap:wrap}
+.node:hover{background:var(--sunk)}
+.caret{flex:none;width:18px;height:18px;display:inline-grid;place-items:center}
+.caret::before{content:"";width:7px;height:7px;border-right:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(-45deg);transition:transform .15s}
+.node[aria-expanded="true"] .caret::before{transform:rotate(45deg) translate(-2px,-2px)}
+.nm{font-weight:600}
+.l1>.node{padding:12px 10px;background:var(--surface);border:1px solid var(--rule)}
+.l1>.node .nm{font-family:var(--f-display);font-weight:400;font-size:24px}
+.l2>.node .nm{font-family:var(--f-display);font-weight:400;font-size:19px}
+.l3>.node .nm{font-size:16px}
+.sub{color:var(--muted);font-size:13px}
+.cnt{margin-left:auto;font-family:var(--f-mono);font-size:11.5px;color:var(--muted);white-space:nowrap}
+.cnt b{color:var(--v-obj);font-weight:500}
+.blurb{max-width:72ch;color:var(--muted);font-size:14px}
+.note{max-width:76ch;font-size:13.5px;padding:10px 12px;border:1px dashed color-mix(in srgb,var(--brass) 60%,transparent);border-radius:6px;background:color-mix(in srgb,var(--brass) 7%,transparent)}
+.note strong{color:var(--brass);font-weight:600}
+.otag{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:3px;border:1px solid var(--rule);color:var(--muted)}
+.otag.front{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 50%,transparent)}
+.otag.middle{color:var(--v-planb);border-color:color-mix(in srgb,var(--v-planb) 50%,transparent)}
+.otag.back{color:var(--v-evi);border-color:color-mix(in srgb,var(--v-evi) 50%,transparent)}
+.grp>.node .nm{font-weight:500;font-size:14px;color:var(--muted)}
+.roles{margin-left:15px;padding-left:12px;border-left:1px dotted var(--rule);padding-block:2px 6px}
+
+.role{border:1px solid var(--rule-soft);border-radius:6px;background:var(--surface);scroll-margin-top:64px}
+.role.is-back{opacity:.72}
+.role.open{border-color:var(--rule);opacity:1}
+.role-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 14px;align-items:center;width:100%;text-align:left;background:none;border:0;padding:10px 12px;cursor:pointer;border-radius:6px}
+.role-head:hover{background:var(--sunk)}
+.rt{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;min-width:0}
+.rname{font-weight:600;font-size:15px}
+.ren{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.rmeta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+.rsal{font-family:var(--f-mono);font-size:12px;color:var(--muted);min-width:9ch;text-align:right}
+.star{color:var(--brass);font-size:12px;font-family:var(--f-mono)}
+
+.rb{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:22px;padding:6px 14px 16px;border-top:1px solid var(--rule-soft)}
+.rb-main,.rb-side{display:grid;align-content:start;gap:14px;min-width:0}
+.crumb{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:10px}
+.lead{font-size:15.5px;max-width:66ch}
+.rb ul.day{margin:6px 0 0;padding-left:18px;display:grid;gap:3px;font-size:14px}
+.rb .blk{display:grid;gap:6px}
+.rb .blk p{font-size:14px;max-width:66ch}
+.skills{display:flex;flex-wrap:wrap;gap:6px}
+.skills span{font-size:12.5px;padding:3px 8px;background:var(--sunk);border-radius:3px}
+.vbox{--c:var(--v-lej);border:1px solid color-mix(in srgb,var(--c) 40%,transparent);background:color-mix(in srgb,var(--c) 8%,transparent);border-radius:6px;padding:12px 14px;display:grid;gap:10px}
+.vbox h4{color:var(--c)}
+.vbox p{font-size:14px}
+.meters{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;align-items:center;font-size:12.5px;color:var(--muted)}
+.facts{display:grid;gap:10px;margin:0}
+.facts dt{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.facts dd{margin:2px 0 0;font-size:14px}
+.paytbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.paytbl td{padding:4px 0;border-bottom:1px solid var(--rule-soft)}
+.paytbl td:last-child{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap;padding-left:10px}
+.savebtn{justify-self:start}
+.savebtn[aria-pressed="true"]{border-color:var(--brass);color:var(--brass)}
+.empty{padding:20px;border:1px dashed var(--rule);border-radius:6px;color:var(--muted);text-align:center}
+
+/* Tabla */
+.tblwrap{overflow-x:auto;border:1px solid var(--rule);border-radius:6px;background:var(--surface)}
+table.cmp{border-collapse:collapse;width:100%;min-width:900px;font-size:13.5px}
+table.cmp th{position:sticky;top:0;background:var(--sunk);text-align:left;font-weight:500;padding:0;border-bottom:1px solid var(--rule);white-space:nowrap}
+table.cmp th button{background:none;border:0;padding:9px 10px;cursor:pointer;font-size:12px;font-family:var(--f-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);width:100%;text-align:left}
+table.cmp th button[aria-sort]{color:var(--ink)}
+table.cmp td{padding:8px 10px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+table.cmp tr:hover td{background:var(--sunk)}
+table.cmp td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.linkish{background:none;border:0;padding:0;text-align:left;cursor:pointer;font-weight:600;text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:3px}
+.linkish:hover{text-decoration-color:var(--accent)}
+.tpath{display:block;color:var(--muted);font-size:12px}
+
+/* Plan */
+.plan{display:grid;gap:0;border-left:2px solid var(--rule);margin-left:6px}
+.step{position:relative;padding:0 0 26px 24px;display:grid;gap:8px;max-width:78ch}
+.step::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--accent)}
+.step.now::before{background:var(--accent)}
+.step .when{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--brass)}
+.step h3{font-size:21px}
+.step ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:14.5px}
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.tier{padding:14px;border:1px solid var(--rule);border-radius:6px;background:var(--surface);display:grid;gap:8px;align-content:start}
+.tier h3{font-size:19px}
+.tier p{font-size:13.5px;color:var(--muted)}
+.tier ol{margin:0;padding-left:18px;font-size:14px;display:grid;gap:3px}
+.disclaimer{font-size:12.5px;color:var(--muted);max-width:80ch;border-top:1px solid var(--rule);padding-top:14px}
+
+@media (max-width:820px){
+  .short,.tiers{grid-template-columns:1fr}
+  .rb{grid-template-columns:1fr}
+  .profile{grid-template-columns:1fr}
+  .offices{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  #guilloche{width:220px;height:220px;right:-70px;top:-40px;opacity:.45}
+  .kids{margin-left:8px;padding-left:10px}
+  .roles{margin-left:6px;padding-left:8px}
+  .role-head{grid-template-columns:1fr}
+  .rmeta{justify-content:flex-start}
+  .rsal{text-align:left}
+  .cnt{margin-left:28px;white-space:normal}
+  .l1>.node .nm{font-size:21px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<header class="masthead">
+  <canvas id="guilloche" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <p class="eyebrow">Preparado para Raúl · octubre 2026</p>
+    <h1>Mapa de carreras <em>en finanzas</em></h1>
+    <p class="lede">Del sector al puesto concreto: qué hace cada uno, cuánto se cobra, cómo se entra y, sobre todo, cuánto encaja con tu perfil. Despliega el árbol de arriba abajo o salta directamente a los puestos que más te convienen.</p>
+    <div class="profile">
+      <div>
+        <h4>Tu perfil</h4>
+        <div class="chips">
+          <span class="chip">Ing. de Datos e IA · ULE (1.ª promoción)</span>
+          <span class="chip">TFG: trading algorítmico con IA · dic 2026</span>
+          <span class="chip">Admitido al máster MIAX (Instituto BME)</span>
+          <span class="chip">Inglés C1</span>
+          <span class="chip">Python · ML · matemáticas</span>
+          <span class="chip">Años de trading propio</span>
+        </div>
+      </div>
+      <div>
+        <h4>Lo que buscas</h4>
+        <div class="chips">
+          <span class="chip want">Élite y bien pagado</span>
+          <span class="chip want">Clientes o mercados</span>
+          <span class="chip want">Front office</span>
+          <span class="chip no">Back office</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Secciones">
+  <div class="wrap" role="tablist">
+    <button class="tab" role="tab" id="tab-arbol" data-tab="arbol" aria-selected="true">Árbol de carreras</button>
+    <button class="tab" role="tab" id="tab-tabla" data-tab="tabla" aria-selected="false">Comparar puestos</button>
+    <button class="tab" role="tab" id="tab-plan" data-tab="plan" aria-selected="false">Plan de acción</button>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+
+    <!-- ÁRBOL -->
+    <section class="view" id="view-arbol" role="tabpanel" aria-labelledby="tab-arbol">
+      <div class="sec-title">
+        <h2>Dónde poner tu energía</h2>
+        <p>Selección automática a partir de la valoración de cada puesto. Pulsa uno para abrir su ficha dentro del árbol.</p>
+      </div>
+      <div class="short" id="shortlist"></div>
+      <div id="savedlist"></div>
+
+      <div class="sec-title">
+        <h2>Cómo leer el mapa</h2>
+        <p>Cada puesto tiene una valoración pensada para ti y dos medidores: encaje con tu perfil y facilidad de acceso.</p>
+      </div>
+      <div class="legend" id="legend"></div>
+      <div class="offices">
+        <div class="off front"><h3>Front office</h3><p>Genera ingresos y da la cara: trata con clientes o con el mercado y responde de un P&amp;L. Sales, trading, banca de inversión, gestión de carteras.</p></div>
+        <div class="off middle"><h3>Middle office</h3><p>Controla y mide lo que hace el front: riesgos, validación de modelos, product control, compliance. Técnico y cercano al negocio, sin P&amp;L propio.</p></div>
+        <div class="off back"><h3>Back office</h3><p>Procesa y liquida: operaciones, liquidación, contabilidad de fondos, KYC. Es lo que quieres evitar y cada vez está más automatizado.</p></div>
+      </div>
+
+      <div class="sec-title">
+        <h2>El árbol</h2>
+        <p>Nivel 1: lado del mercado · Nivel 2: tipo de entidad · Nivel 3: oficina · Nivel 4: puesto.</p>
+      </div>
+      <div class="controls">
+        <div class="search"><input id="q" type="search" placeholder="Buscar puesto, empresa o habilidad (p. ej. «Optiver», «opciones», «C++»)" aria-label="Buscar en el árbol"></div>
+        <div class="toggles">
+          <label><input type="checkbox" id="hideBack"> Ocultar back office</label>
+          <label><input type="checkbox" id="highFit"> Solo encaje 4–5</label>
+        </div>
+        <div class="vf" id="vfilters" aria-label="Filtrar por valoración"></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+          <button class="btn" id="expandAll">Expandir todo</button>
+          <button class="btn" id="collapseAll">Contraer todo</button>
+          <span class="result-count" id="rcount"></span>
+        </div>
+      </div>
+      <ul class="tree" id="tree"></ul>
+    </section>
+
+    <!-- TABLA -->
+    <section class="view" id="view-tabla" role="tabpanel" aria-labelledby="tab-tabla" hidden>
+      <div class="sec-title">
+        <h2>Todos los puestos, lado a lado</h2>
+        <p>Pulsa una cabecera para ordenar. Los filtros del árbol también se aplican aquí. Retribución: total del primer año (fijo + bonus), orientativa.</p>
+      </div>
+      <div class="tblwrap"><table class="cmp" id="cmp"></table></div>
+      <p class="disclaimer">Las plazas internacionales se convierten a euros solo para ordenar (1 £ ≈ 1,17 €; 1 CHF ≈ 1,06 €). En prop trading y hedge funds el bonus puede ser más de la mitad de la retribución y varía mucho de un año a otro.</p>
+    </section>
+
+    <!-- PLAN -->
+    <section class="view" id="view-plan" role="tabpanel" aria-labelledby="tab-plan" hidden>
+      <div class="sec-title">
+        <h2>Tu estrategia en tres niveles</h2>
+        <p>Aplica a los tres a la vez. Las apuestas pagan mucho si salen; la red de seguridad te mete en el sector y te deja saltar a front office en 2–3 años.</p>
+      </div>
+      <div class="tiers" id="tiers"></div>
+
+      <div class="sec-title">
+        <h2>Calendario</h2>
+        <p>Hoy es octubre de 2026. Los procesos de Londres y Ámsterdam ya están abiertos.</p>
+      </div>
+      <div class="plan">
+        <div class="step now">
+          <span class="when">Ahora · oct–dic 2026</span>
+          <h3>Abre todos los frentes mientras cierras el TFG</h3>
+          <ul>
+            <li><strong>Market makers y prop:</strong> aplica ya a graduate trader, quant researcher e internships de verano 2027 en Optiver, IMC, Flow Traders, Da Vinci, Jane Street, Citadel Securities y SIG. Los procesos son continuos y se cubren plazas desde otoño.</li>
+            <li><strong>Bancos en Londres:</strong> internships de verano 2027 en Markets, Strats/QR y e-trading. Muchas cierran entre noviembre y enero. Durante 2027 seguirás siendo estudiante (MIAX), así que eres elegible.</li>
+            <li><strong>Prepara los tests a diario:</strong> cálculo mental (Zetamac, objetivo de 50 o más), probabilidad y valor esperado (<em>A Practical Guide to Quantitative Finance Interviews</em> de Xinfeng Zhou, <em>Heard on the Street</em>), secuencias numéricas y juegos de market making.</li>
+            <li><strong>Convierte el TFG en tu carta de presentación:</strong> repositorio público, validación walk-forward, costes de transacción y slippage, ausencia de look-ahead bias y métricas honestas (Sharpe deflactado de López de Prado). Añade un resumen de una página en inglés para enlazar en el CV.</li>
+          </ul>
+        </div>
+        <div class="step">
+          <span class="when">Ene–jun 2027 · durante el MIAX</span>
+          <h3>Usa la red del máster y busca prácticas fuera de temporada</h3>
+          <ul>
+            <li>Muchos profesores y alumnos del MIAX vienen de mesas, gestoras y de BME. Pide referencias para quant y e-trading en Santander CIB y BBVA CIB, y para gestoras con equipos sistemáticos.</li>
+            <li>Busca <strong>off-cycle internships</strong> en Londres (empiezan entre enero y abril) y los programas de graduados de Santander, BBVA y CaixaBank.</li>
+            <li>Elige una especialización técnica según tu objetivo: C++ moderno si vas a quant developer o prop; cálculo estocástico (Shreve) y derivados (Hull) si vas a strats o estructuración.</li>
+          </ul>
+        </div>
+        <div class="step">
+          <span class="when">Verano 2027</span>
+          <h3>Internship o red de seguridad</h3>
+          <ul>
+            <li>Si consigues un internship en front office, el objetivo es convertirlo en oferta de graduado: la mayoría de las plazas fijas salen así.</li>
+            <li>Si no, entra en un puesto puente en Madrid (validación de modelos, riesgo de mercado, modelos IRB o Management Solutions) y sigue aplicando. Desde ahí se salta a front office en 1–3 años.</li>
+          </ul>
+        </div>
+        <div class="step">
+          <span class="when">Otoño 2027</span>
+          <h3>Segunda ronda de graduate, ya con máster y experiencia</h3>
+          <ul>
+            <li>Repite los procesos de prop y bancos con el MIAX terminado y el TFG publicado. Muchos candidatos entran en el segundo intento.</li>
+            <li>Mira también las plazas de experienced hire (0–2 años) en firmas de cripto market making y fondos sistemáticos, donde pesa más lo que sabes hacer que el calendario de recruiting.</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="disclaimer">Este mapa es una guía orientativa. Las retribuciones son rangos aproximados del primer año a partir de referencias públicas habituales hasta 2026 y varían mucho según la entidad, el año y el desempeño. Úsalas para comparar órdenes de magnitud, no como oferta. Los calendarios de selección cambian cada año: confirma plazos en la web de cada empresa.</p>
+    </section>
+
+  </div>
+</main>
+
+<script>
+/* ===================== DATOS ===================== */
+const V = {
+  "objetivo":  {label:"Objetivo realista",  desc:"Encaja con tu perfil y está a tu alcance con preparación."},
+  "ambicioso": {label:"Apuesta ambiciosa",  desc:"Encaje máximo, pero el filtro es durísimo. Merece intentarlo."},
+  "plan-b":    {label:"Plan B / trampolín", desc:"Accesible y útil para crecer o saltar a front office más tarde."},
+  "lejano":    {label:"Poco alineado",      desc:"Posible, pero no aprovecha tu perfil o no es lo que buscas."},
+  "evitar":    {label:"Back office: evitar", desc:"Justo lo que has dicho que quieres evitar."}
+};
+const VORDER = ["objetivo","ambicioso","plan-b","lejano","evitar"];
+const OFF = {front:"Front office", middle:"Middle office", back:"Back office", na:"Función"};
+
+function G(id, o, roles, label){ return {id, group:true, o, label: label || OFF[o], roles}; }
+
+const TREE = [
+{ id:"sell", name:"Sell side", sub:"Bancos que crean, venden y negocian productos financieros",
+  blurb:"Dan servicio a clientes: les ofrecen precios, asesoramiento, financiación y acceso a los mercados. Ganan por comisiones y por el diferencial entre el precio de compra y el de venta, no por apostar con su capital.",
+  children:[
+  { id:"cib", name:"Banca de inversión (CIB)", sub:"Corporate & Investment Banking",
+    blurb:"La parte mayorista del banco: trabaja con grandes empresas, instituciones y gobiernos. Tiene tres divisiones: Global Markets (mercados), Investment Banking (asesoramiento y emisiones) y Transaction Banking (pagos, liquidez y comercio exterior). En Madrid, Santander y BBVA tienen mesas de mercados completas; los bancos extranjeros concentran el trading en Londres y París.",
+    children:[
+    { id:"gm", name:"Global Markets", sub:"Sales & Trading, estructuración, quants y research",
+      blurb:"La división de mercados: compra y vende bonos, divisas, acciones, derivados y materias primas para clientes institucionales. Es el área del banco que más se parece a lo que ya haces como trader.",
+      children:[
+      G("gm-fo","front",[
+        {id:"gm-trader", t:"Trader de S&T", en:"Sales & Trading · flow / market making", v:"objetivo", fit:5, acc:3,
+         d:"Gestiona el riesgo de un libro (tipos, divisa, crédito, renta variable o materias primas): da precios a los clientes que traen los sales, decide cuánto riesgo mantener y cómo cubrirlo. En un banco el trader hace sobre todo market making para clientes, no apuestas direccionales.",
+         day:["Revisar posiciones, griegas y P&L antes de la apertura","Dar precios a clientes por teléfono, chat y plataformas electrónicas","Cubrir el riesgo en mercado y ajustar el libro durante el día","Cuadrar y explicar el P&L al cierre"],
+         sk:["Rapidez con números y probabilidad","Derivados y gestión de riesgo","Python para herramientas propias","Disciplina para cortar pérdidas"],
+         entry:"Internship de verano o programa de graduados de mercados con rotaciones por mesas. Cada vez más mesas buscan perfiles que programen: un trader que automatiza su libro vale más.",
+         sal:[["Madrid","€50–75k"],["Londres","£80–120k"]], life:"55–65 h/sem · máxima intensidad en horario de mercado",
+         exits:"Hedge funds, trading en gestoras, prop trading, e-trading.",
+         why:"Encaje casi total: mercados, números, tu experiencia de trading y tu TFG. Lo realista es entrar por una mesa de Santander o BBVA en Madrid o por un programa de graduados en Londres. El MIAX te conecta directamente con esas mesas.",
+         firms:"Santander CIB, BBVA CIB, CaixaBank, JP Morgan, Goldman Sachs, BNP Paribas, Société Générale, Barclays"},
+        {id:"gm-etrading", t:"Quant de trading electrónico", en:"e-Trading / algo trading quant", v:"objetivo", fit:5, acc:3,
+         d:"Desarrolla los algoritmos que cotizan automáticamente en plataformas electrónicas (divisa, bonos, ETFs) y los algoritmos de ejecución que usan los clientes. Es la parte del banco que más se parece a un market maker.",
+         day:["Ajustar los parámetros de pricing y skew de los algoritmos","Analizar ejecuciones, markouts y rentabilidad por cliente","Programar y probar estrategias nuevas","Vigilar los sistemas en horario de mercado"],
+         sk:["Microestructura de mercado","Python y SQL; kdb+/q, Java o C++ según el banco","Estadística y ML para series temporales","Backtesting riguroso"],
+         entry:"Programa de graduados de mercados con rotación en e-trading, o entrada directa como quant tras un máster. Tu TFG es tu carta de presentación.",
+         sal:[["Madrid","€45–70k"],["Londres","£85–140k"]], life:"50–60 h/sem",
+         exits:"Market makers, hedge funds sistemáticos, fintech de trading.",
+         why:"Es la traducción directa de tu TFG a un puesto de banco. Llévalo a la entrevista como un proyecto serio, con costes de transacción, validación walk-forward y métricas honestas. El MIAX está pensado exactamente para esto.",
+         firms:"Santander CIB, BBVA CIB, JP Morgan, Goldman Sachs, Deutsche Bank, UBS, Citi (Londres)"},
+        {id:"gm-strats", t:"Quant de front office", en:"Desk quant / Strats / QR", v:"objetivo", fit:5, acc:3,
+         d:"Construye y mantiene los modelos de pricing y riesgo que usan los traders: curvas de tipos, superficies de volatilidad, modelos de derivados y herramientas de cobertura. Se sienta con la mesa y resuelve sus problemas en tiempo real.",
+         day:["Calibrar modelos y comprobar que los precios cuadran con el mercado","Programar librerías de pricing en Python o C++","Resolver incidencias de la mesa: un precio raro, una cobertura que falla","Proyectos de automatización y ML aplicado"],
+         sk:["Cálculo estocástico y métodos numéricos","Python sólido; C++ en muchos bancos","Estadística y derivados","Trabajar bajo presión con traders"],
+         entry:"Máster cuantitativo (como el MIAX) o doctorado. Entrevistas técnicas de probabilidad, programación y derivados.",
+         sal:[["Madrid","€45–70k"],["Londres","£85–130k"]], life:"50–60 h/sem",
+         exits:"Quant en hedge fund, quant trader, risk quant sénior.",
+         why:"Es el puesto de banco que mejor aprovecha tu formación. En Madrid, Santander y BBVA tienen equipos de quants de mercados; en Londres, Goldman (Strats), JP Morgan (Quantitative Research) y otros. Refuerza cálculo estocástico y C++ para subir de nivel.",
+         firms:"Santander CIB, BBVA CIB, Goldman Sachs, JP Morgan, Morgan Stanley, BNP Paribas, Natixis"},
+        {id:"gm-struct", t:"Structurer", en:"Structuring / soluciones de derivados", v:"objetivo", fit:4, acc:3,
+         d:"Diseña productos a medida combinando derivados: coberturas para empresas, notas estructuradas para banca privada, soluciones para aseguradoras. Está entre el cliente, el sales y el trader, y tiene que saber ponerle precio al producto y explicarlo.",
+         day:["Modelizar el payoff y el precio de un producto","Preparar term sheets y presentaciones para clientes","Ajustar el producto con trading para que su riesgo se pueda gestionar","Reuniones con sales y clientes institucionales"],
+         sk:["Derivados: opciones, swaps, volatilidad","Matemáticas financieras","Python y Excel avanzado","Explicar lo complejo de forma sencilla"],
+         entry:"Programa de graduados con rotación en estructuración o entrada directa tras un máster cuantitativo.",
+         sal:[["Madrid","€50–75k"],["Londres","£80–120k"]], life:"55–65 h/sem",
+         exits:"Trading de derivados, sales de soluciones, gestión de carteras, fintech.",
+         why:"Une las dos cosas que buscas: clientes y matemáticas. Tu perfil cuantitativo te diferencia de los candidatos de ADE. Santander y BBVA tienen equipos grandes de estructurados en Madrid.",
+         firms:"Santander CIB, BBVA CIB, Société Générale, BNP Paribas, Natixis, Citi"},
+        {id:"gm-sales", t:"Sales de S&T", en:"Sales & Trading · institutional sales", v:"plan-b", fit:3, acc:4,
+         d:"Es el enlace entre el banco y los clientes institucionales (gestoras, hedge funds, aseguradoras, tesorerías de empresas). Les lleva ideas y precios, entiende qué necesitan y canaliza sus órdenes hacia los traders.",
+         day:["Reunión de mercado a las 7:00 con research y trading","Llamadas y chats de Bloomberg con decenas de clientes","Pedir precio al trader y negociarlo con el cliente","Preparar ideas de inversión y comentarios de mercado"],
+         sk:["Relación con clientes y persuasión","Conocimiento de producto","Inglés fluido; otros idiomas suman","Resistencia a la presión"],
+         entry:"Internship o programa de graduados de CIB. En Madrid hay sales de renta fija, divisa y renta variable para clientes ibéricos; en Londres se organiza por producto y región.",
+         sal:[["Madrid","€45–65k"],["Londres","£75–110k"]], life:"55–65 h/sem · horario de mercado",
+         exits:"Sales sénior, ventas en una gestora, relación con inversores.",
+         why:"Te da trato con clientes y mercados, y tu inglés y tu experiencia de trading ayudan. Pero es el puesto de mercados donde menos pesa tu perfil cuantitativo. Si vas por aquí, apunta a sales de derivados, estructurados o divisa electrónica, donde un sales que entiende modelos destaca.",
+         firms:"Santander CIB, BBVA CIB, CaixaBank, JP Morgan, Goldman Sachs, Morgan Stanley, BNP Paribas"},
+        {id:"gm-research", t:"Analista de research", en:"Equity / macro / credit research", v:"plan-b", fit:3, acc:3,
+         d:"Publica análisis y recomendaciones sobre empresas, sectores o macroeconomía para los clientes del banco. El analista sénior es una figura visible ante inversores; el junior construye los modelos y escribe los borradores.",
+         day:["Actualizar modelos tras resultados o datos macro","Escribir notas y presentaciones","Atender llamadas de clientes y de sales","Reuniones con empresas"],
+         sk:["Modelización financiera y contabilidad","Escribir claro y rápido","Criterio propio defendible","El CFA ayuda"],
+         entry:"Internships y programas de graduados; también desde auditoría o consultoría de valoración.",
+         sal:[["Madrid","€40–60k"],["Londres","£65–95k"]], life:"55–65 h/sem, con picos en temporada de resultados",
+         exits:"Analista en gestoras y hedge funds, relación con inversores.",
+         why:"Hay trato con clientes e inversión, pero es un área que ha encogido desde MiFID II y se basa en análisis fundamental. Existe research cuantitativo (quant strategy), con muy pocas plazas.",
+         firms:"Santander, BBVA, CaixaBank BPI, Renta 4, JP Morgan, Morgan Stanley, UBS"}
+      ], "Front office · generan ingresos con clientes y mercado"),
+      G("gm-mo","middle",[
+        {id:"gm-modelval", t:"Validación de modelos", en:"Model validation / model risk", v:"plan-b", fit:4, acc:4,
+         d:"Revisa de forma independiente los modelos de pricing, riesgo y machine learning del banco: replica los cálculos, busca puntos débiles y decide si se pueden usar. Cada vez hay más modelos de IA que validar.",
+         day:["Replicar un modelo de pricing o de riesgo","Documentar hallazgos y limitaciones","Debatir con los quants que lo desarrollaron","Seguir la regulación del BCE sobre modelos"],
+         sk:["Matemáticas y estadística","Python","Derivados y modelos de riesgo","Redacción técnica en inglés"],
+         entry:"Muy demandado en Madrid (bancos y consultoras). Contratan recién graduados de carreras STEM.",
+         sal:[["Madrid","€35–50k"],["Londres","£55–80k"]], life:"40–50 h/sem",
+         exits:"Quant de front office, risk quant, consultoría.",
+         why:"Usa tu formación de verdad y aprendes los modelos de todo el banco. Es middle office, sin clientes ni P&L, pero es un trampolín reconocido hacia quant de front office.",
+         firms:"Santander, BBVA, CaixaBank, Sabadell, Management Solutions, Big Four"},
+        {id:"gm-mrisk", t:"Riesgo de mercado", en:"Market risk", v:"plan-b", fit:3, acc:5,
+         d:"Mide y limita el riesgo de las mesas: VaR, stress tests, sensibilidades y límites. Es la segunda línea de defensa y tiene que entender lo que hace el trader para poder cuestionarlo.",
+         day:["Producir y explicar el informe diario de riesgo","Investigar excesos de límite con la mesa","Diseñar escenarios de estrés","Proyectos regulatorios (FRTB)"],
+         sk:["Estadística y modelos de riesgo (VaR, Expected Shortfall)","Python y SQL","Regulación de Basilea","Comunicación con traders"],
+         entry:"Programas de graduados de riesgos. Muy accesible con tu perfil.",
+         sal:[["Madrid","€35–45k"],["Londres","£50–70k"]], life:"45–50 h/sem",
+         exits:"Risk quant, validación, a veces paso a front office.",
+         why:"Es la puerta más accesible a mercados y te sienta junto a las mesas. Sirve de trampolín si no entras directamente en front office, pero no es donde quieres acabar: menos sueldo y menos protagonismo.",
+         firms:"Santander, BBVA, CaixaBank, Bankinter, cualquier banco con mesa"},
+        {id:"gm-pc", t:"Product control", en:"Product control / valuation control", v:"lejano", fit:2, acc:5,
+         d:"Calcula y explica el P&L diario de las mesas, verifica las valoraciones y concilia con contabilidad. Conoce bien los productos, pero desde el control.",
+         sk:["Contabilidad y valoración","Excel y SQL","Rigor"],
+         sal:[["Madrid","€32–42k"],["Londres","£45–60k"]], life:"45–55 h/sem, más en cierres",
+         exits:"Finanzas, riesgos, alguna vez trading.",
+         why:"Es middle office de corte contable. Te acerca a la mesa, pero no usa tu perfil de datos ni te da trato con clientes.",
+         firms:"Todos los bancos con mesa de mercados"}
+      ], "Middle office · control, riesgo y modelos"),
+      G("gm-bo","back",[
+        {id:"gm-ops", t:"Operaciones de mercados", en:"Settlement · confirmations · collateral", v:"evitar", fit:1, acc:5,
+         d:"Liquidación de operaciones, confirmaciones con contrapartes, gestión de colateral y conciliaciones. Es el back office de mercados.",
+         sal:[["Madrid","€25–35k"],["Londres","£35–45k"]], life:"40–45 h/sem",
+         why:"Es justo lo que quieres evitar. Es un trabajo cada vez más automatizado y el salto a front office es raro."}
+      ], "Back office · liquidación y operaciones")
+      ]},
+    { id:"ib", name:"Investment Banking", sub:"Fusiones y adquisiciones, salidas a bolsa y emisiones",
+      blurb:"Asesora a empresas y fondos en compras, ventas y fusiones (M&A) y les ayuda a captar dinero emitiendo acciones o deuda. Es el mundo de las «finanzas corporativas de élite» en sentido clásico: trabajo para grandes clientes, mucho prestigio y horarios muy largos.",
+      children:[
+      G("ib-fo","front",[
+        {id:"ib-ma", t:"Analista de M&A / coverage", en:"Investment Banking Analyst", v:"plan-b", fit:3, acc:3,
+         d:"Asesora en compras, ventas y fusiones de empresas. El analista construye modelos de valoración (DCF, múltiplos, LBO), prepara las presentaciones para clientes (pitch books) y coordina la información de la operación.",
+         day:["Modelos de valoración en Excel","Pitch books en PowerPoint, muchos","Due diligence y data room","Revisiones con associate y VP hasta tarde"],
+         sk:["Contabilidad y valoración","Excel y PowerPoint impecables","Atención al detalle","Aguante físico"],
+         entry:"Summer internship en el penúltimo año (Londres) o prácticas en boutiques españolas (AZ Capital, Arcano, Alantra) y en bancos con oficina en Madrid.",
+         sal:[["Madrid","€60–90k"],["Londres","£85–120k"]], life:"75–100 h/sem",
+         exits:"Private equity, desarrollo corporativo, hedge funds discrecionales.",
+         why:"Es el puesto de élite por excelencia y la vía hacia private equity. Pero tu ventaja (datos, IA, trading) apenas cuenta y competirías con perfiles de ADE y dobles grados que llevan años preparándose. Solo tiene sentido si te atraen las operaciones corporativas más que los mercados.",
+         firms:"Goldman Sachs, Morgan Stanley, JP Morgan, Santander, BBVA, AZ Capital, Arcano, Alantra, Lazard, Rothschild"},
+        {id:"ib-cm", t:"Mercados de capitales (ECM / DCM)", en:"Equity / Debt Capital Markets", v:"plan-b", fit:3, acc:3,
+         d:"Ayuda a las empresas a financiarse emitiendo acciones (ECM: salidas a bolsa, ampliaciones de capital) o deuda (DCM: bonos, préstamos sindicados). Está entre banca de inversión y mercados, y sigue el mercado a diario.",
+         day:["Seguir el mercado primario y las emisiones de la semana","Preparar propuestas de financiación para emisores","Coordinar la colocación con la mesa de sindicación","Analizar spreads, curvas y comparables"],
+         sk:["Renta fija o variable","Excel y presentaciones","Seguimiento del mercado","Relación con emisores"],
+         entry:"Programas de graduados de CIB. En Madrid, DCM es una de las áreas más activas de Santander y BBVA.",
+         sal:[["Madrid","€55–80k"],["Londres","£80–110k"]], life:"60–75 h/sem",
+         exits:"Leveraged finance, private credit, tesorería corporativa.",
+         why:"Más cerca de los mercados que M&A y con horarios algo mejores. DCM usa más análisis de curvas y spreads. Encaje medio: es más ejecución y relación con emisores que análisis cuantitativo.",
+         firms:"Santander, BBVA, CaixaBank, JP Morgan, Citi, BNP Paribas, HSBC"}
+      ], "Front office · asesoramiento y emisiones"),
+      G("ib-mo","middle",[
+        {id:"ib-credit", t:"Riesgo de crédito corporativo", en:"Credit risk / admisión", v:"lejano", fit:2, acc:4,
+         d:"Analiza la solvencia de las empresas a las que el banco presta o con las que opera, y aprueba o rechaza las operaciones.",
+         sk:["Análisis de estados financieros","Excel","Criterio"],
+         sal:[["Madrid","€32–45k"],["Londres","£45–65k"]], life:"40–50 h/sem",
+         why:"Estable y cercano al negocio, pero sin mercados ni modelos avanzados. No aprovecha tu perfil."},
+        {id:"ib-comp", t:"Compliance y control de conflictos", en:"Compliance / control room", v:"lejano", fit:1, acc:4,
+         d:"Controla la información privilegiada, las barreras entre áreas y el cumplimiento normativo de las operaciones.",
+         sal:[["Madrid","€30–42k"],["Londres","£45–60k"]], life:"40–45 h/sem",
+         why:"Perfil jurídico-normativo. No encaja con lo que buscas."}
+      ], "Middle office · riesgo y cumplimiento"),
+      G("ib-bo","back",[
+        {id:"ib-ops", t:"Operaciones de préstamos y agencia", en:"Loan operations / deal ops", v:"evitar", fit:1, acc:5,
+         d:"Administración de préstamos sindicados, pagos de intereses, documentación y gestión de garantías.",
+         sal:[["Madrid","€25–35k"],["Londres","£35–45k"]], life:"40 h/sem",
+         why:"Back office puro."}
+      ], "Back office · administración")
+      ]},
+    { id:"tb", name:"Transaction Banking", sub:"Pagos, liquidez y comercio exterior para empresas",
+      blurb:"Da a las grandes empresas los servicios del día a día: cuentas en muchos países, pagos y cobros, gestión de liquidez y financiación del comercio exterior. Negocio estable y muy rentable para el banco, pero lejos de los mercados.",
+      children:[
+      G("tb-fo","front",[
+        {id:"tb-sales", t:"Sales de transaction banking", en:"Cash management sales", v:"lejano", fit:2, acc:4,
+         d:"Vende a grandes empresas los servicios de pagos, cobros, gestión de liquidez y cuentas internacionales. Es una relación de largo plazo con el tesorero de la empresa.",
+         sk:["Relación con clientes corporativos","Conocimiento de tesorería de empresas","Idiomas"],
+         sal:[["Madrid","€40–60k"],["Londres","£60–85k"]], life:"45–55 h/sem",
+         exits:"Corporate banking, tesorería corporativa.",
+         why:"Trato con clientes corporativos y buena calidad de vida, pero es un negocio de servicios, lejos de los mercados y de lo cuantitativo.",
+         firms:"Santander, BBVA, CaixaBank, Citi, JP Morgan, HSBC"},
+        {id:"tb-tf", t:"Trade & working capital finance", en:"Trade finance", v:"lejano", fit:2, acc:4,
+         d:"Estructura la financiación del comercio exterior: cartas de crédito, confirming, factoring y financiación de exportaciones con agencias de crédito (ECA).",
+         sal:[["Madrid","€38–55k"],["Londres","£55–80k"]], life:"45–55 h/sem",
+         why:"Producto de nicho con buen equilibrio de vida. No usa tu perfil cuantitativo ni de mercados.",
+         firms:"Santander, BBVA, CaixaBank, Sabadell, Standard Chartered"}
+      ]),
+      G("tb-mo","middle",[
+        {id:"tb-prod", t:"Producto y analítica de pagos", en:"Payments product / analytics", v:"plan-b", fit:3, acc:4,
+         d:"Define los productos digitales de pagos y analiza los flujos de los clientes para detectar oportunidades, fraude o mejoras de precio.",
+         sk:["Análisis de datos (SQL, Python)","Producto digital","Pagos y APIs"],
+         sal:[["Madrid","€35–50k"],["Londres","£50–75k"]], life:"40–50 h/sem",
+         why:"Aquí sí entra tu perfil de datos, pero es un mundo de producto y tecnología, no de mercados."}
+      ]),
+      G("tb-bo","back",[
+        {id:"tb-ops", t:"Operaciones de pagos y comercio exterior", en:"Payments & trade ops", v:"evitar", fit:1, acc:5,
+         d:"Procesa pagos, documentación de comercio exterior y conciliaciones.",
+         sal:[["Madrid","€24–32k"]], life:"40 h/sem", why:"Back office puro."}
+      ])
+      ]}
+    ]},
+  { id:"pb", name:"Banca privada", sub:"Gestión del patrimonio de clientes ricos",
+    blurb:"Asesora y gestiona el patrimonio de particulares y familias con mucho dinero (normalmente a partir de 1 M€). El centro es la relación personal con el cliente. Ginebra y Zúrich son las capitales mundiales y pagan bastante más que Madrid.",
+    children:[
+    G("pb-fo","front",[
+      {id:"pb-cio", t:"Analista de la oficina del CIO", en:"CIO office / asset allocation", v:"plan-b", fit:4, acc:3,
+       d:"Define la visión de mercado y la asignación de activos de la banca privada: carteras modelo, selección de fondos, análisis macro y cuantitativo que luego usan los banqueros con sus clientes.",
+       day:["Actualizar carteras modelo y su rentabilidad","Analizar y seleccionar fondos","Preparar la visión de mercado mensual","Responder dudas de los banqueros"],
+       sk:["Asignación de activos y optimización de carteras","Python y Excel","Macro y mercados","Comunicación"],
+       entry:"Prácticas o graduado en entidades grandes; muy valorado un máster como el MIAX.",
+       sal:[["Madrid","€40–55k"],["Ginebra","CHF 100–130k"]], life:"45–50 h/sem",
+       exits:"Gestión de carteras, gestoras, multi-family offices.",
+       why:"Es la parte más analítica de la banca privada y valora modelos cuantitativos de asignación. Buen encaje, aunque el ritmo es más lento que en una mesa y el sueldo menor.",
+       firms:"UBS, Julius Baer, Pictet, Santander Private Banking, BBVA, A&G, Bankinter, Singular Bank"},
+      {id:"pb-advisor", t:"Asesor de inversiones / gestor discrecional", en:"Investment advisor / DPM", v:"plan-b", fit:3, acc:4,
+       d:"Construye y gestiona las carteras de los clientes con mandato discrecional, o propone inversiones al banquero. Es más técnico que el banquero y menos comercial.",
+       sk:["Productos de inversión","Construcción de carteras","Certificación MiFID (EFA, EFP)","Trato con clientes"],
+       entry:"Programas de graduados de banca privada o entrada como analista de carteras.",
+       sal:[["Madrid","€35–50k"],["Ginebra","CHF 90–120k"]], life:"45–50 h/sem",
+       exits:"Banquero privado, gestoras, family offices.",
+       why:"Une clientes y gestión de carteras y es accesible. Paga menos que mercados y el componente cuantitativo es moderado.",
+       firms:"Andbank, Banca March, A&G, Singular Bank, Bankinter, UBS, Pictet"},
+      {id:"pb-banker", t:"Banquero privado", en:"Private banker / relationship manager", v:"lejano", fit:2, acc:2,
+       d:"Gestiona la relación con clientes de alto patrimonio: entiende su situación, propone carteras y productos, y capta clientes nuevos. Se le mide por patrimonio gestionado y comisiones.",
+       sk:["Red de contactos","Confianza y discreción","Conocimiento fiscal y de producto","Idiomas"],
+       entry:"Pocas veces como primer empleo: se llega desde asesor o tras experiencia en banca.",
+       sal:[["Madrid","€35–55k"],["Ginebra","CHF 100–130k"]], life:"45–55 h/sem",
+       exits:"Multi-family office, independiente (EAF).",
+       why:"Trato con clientes de alto nivel, pero el éxito depende de la red de contactos y de la edad: los clientes confían en perfiles con experiencia. Tu ventaja técnica pesa poco.",
+       firms:"UBS, Julius Baer, Lombard Odier, Pictet, Santander, BBVA, CaixaBank Banca Privada"}
+    ]),
+    G("pb-mo","middle",[
+      {id:"pb-risk", t:"Riesgos e idoneidad (MiFID)", en:"Investment risk & suitability", v:"lejano", fit:2, acc:4,
+       d:"Controla que las carteras respeten los perfiles de riesgo de los clientes y la normativa MiFID.",
+       sal:[["Madrid","€32–42k"]], life:"40 h/sem", why:"Control normativo sin mercados ni clientes."}
+    ]),
+    G("pb-bo","back",[
+      {id:"pb-ops", t:"Operaciones y custodia", en:"Operations / custody", v:"evitar", fit:1, acc:5,
+       d:"Alta de clientes (KYC), custodia de valores y procesamiento de órdenes.",
+       sal:[["Madrid","€24–32k"]], life:"40 h/sem", why:"Back office puro."}
+    ])
+    ]},
+  { id:"cb", name:"Banca comercial", sub:"Particulares y empresas: préstamos, depósitos y servicios",
+    blurb:"El negocio principal de los bancos españoles: hipotecas, préstamos, depósitos y servicios a particulares y empresas. Ofrece estabilidad y muchas plazas cuantitativas en riesgos y datos, pero los sueldos de negocio son modestos.",
+    children:[
+    G("cb-fo","front",[
+      {id:"cb-alm", t:"Tesorería y gestión de balance (ALM)", en:"Treasury / ALM", v:"plan-b", fit:3, acc:4,
+       d:"Gestiona la liquidez y el riesgo de tipo de interés del balance del banco: decide cómo se financia, cubre con derivados y gestiona la cartera de bonos. Es la «mesa» de la banca comercial.",
+       sk:["Tipos de interés y derivados","Modelización de balance","Python y Excel","Regulación de liquidez"],
+       entry:"Programas de graduados o desde riesgos.",
+       sal:[["Madrid","€38–52k"],["Londres","£55–75k"]], life:"45–50 h/sem",
+       exits:"Mercados de tipos, gestoras de renta fija.",
+       why:"Más cerca de los mercados de lo que parece: se opera con bonos y derivados. Buen puente si entras por la banca comercial.",
+       firms:"Santander, BBVA, CaixaBank, Sabadell, Bankinter, Unicaja"},
+      {id:"cb-corp", t:"Gestor de banca de empresas", en:"Corporate / commercial banking RM", v:"lejano", fit:2, acc:4,
+       d:"Gestiona la relación de crédito y servicios con empresas medianas y grandes: préstamos, avales, coberturas y tesorería.",
+       sk:["Análisis de empresas","Relación con clientes","Productos bancarios"],
+       sal:[["Madrid","€32–48k"],["Londres","£45–65k"]], life:"45–50 h/sem",
+       exits:"Corporate banking de CIB, financiación estructurada.",
+       why:"Trato real con clientes y estabilidad, pero sueldos de banca comercial y poco uso de tu perfil.",
+       firms:"Santander, BBVA, CaixaBank, Sabadell, Bankinter"},
+      {id:"cb-retail", t:"Gestor comercial de oficina", en:"Retail banker", v:"lejano", fit:1, acc:5,
+       d:"Atiende a clientes particulares en la red de oficinas: hipotecas, ahorro, seguros y objetivos comerciales.",
+       sal:[["Madrid","€24–32k"]], life:"40–45 h/sem",
+       why:"No tiene nada que ver con lo que buscas."}
+    ]),
+    G("cb-mo","middle",[
+      {id:"cb-irb", t:"Modelos de riesgo de crédito", en:"Credit risk modelling · IRB / IFRS 9", v:"plan-b", fit:4, acc:5,
+       d:"Construye los modelos que estiman la probabilidad de impago y la pérdida esperada de los clientes. Esos modelos deciden cuánto capital necesita el banco. Mucha estadística y ML, con mucha regulación.",
+       day:["Desarrollar y recalibrar modelos de scoring y rating","Preparar documentación para el supervisor","Pruebas de backtesting de los modelos","Proyectos de ML para admisión y recobro"],
+       sk:["Estadística y ML (regresión, gradient boosting)","Python, SAS o R, SQL","Regulación (Basilea, IFRS 9)","Documentación técnica"],
+       entry:"Muy accesible: bancos y consultoras contratan muchos graduados STEM cada año.",
+       sal:[["Madrid","€35–48k"],["Londres","£50–70k"]], life:"40–45 h/sem",
+       exits:"Validación, quant, data science, supervisión.",
+       why:"Es el mayor mercado de empleo cuantitativo de la banca española y lo tienes al alcance desde ya. Es middle office y sin mercados, pero muy buen plan B para empezar con buen sueldo.",
+       firms:"Santander, BBVA, CaixaBank, Sabadell, Management Solutions"},
+      {id:"cb-ds", t:"Data scientist de negocio", en:"Data scientist · retail banking", v:"plan-b", fit:4, acc:5,
+       d:"Modelos de propensión, pricing, abandono, fraude o recomendación para la red comercial y los canales digitales. Equipos grandes en los tres bancos principales.",
+       sk:["ML aplicado","Python y SQL","MLOps y despliegue","Comunicar con negocio"],
+       entry:"Directa tras el grado o el máster.",
+       sal:[["Madrid","€35–50k"],["Londres","£55–80k"]], life:"40–45 h/sem",
+       exits:"Fintech, tecnológicas, data science de inversión.",
+       why:"Tu perfil encaja perfectamente, pero el problema es de negocio bancario, no de mercados. Bien pagado para empezar en Madrid y con buen equilibrio de vida.",
+       firms:"BBVA AI Factory, Santander, CaixaBank Tech, Sabadell, ING España"}
+    ]),
+    G("cb-bo","back",[
+      {id:"cb-ops", t:"Operaciones y servicios centrales", en:"Operations", v:"evitar", fit:1, acc:5,
+       d:"Procesamiento de préstamos, hipotecas, recobros y documentación.",
+       sal:[["Madrid","€22–30k"]], life:"40 h/sem", why:"Back office puro."}
+    ])
+    ]}
+  ]},
+
+{ id:"buy", name:"Buy side", sub:"Quien invierte capital, propio o de clientes",
+  blurb:"Gestoras, hedge funds, firmas de trading propio, fondos de pensiones y fondos de private equity. Ganan por la rentabilidad de lo que invierten y por comisiones de gestión. Aquí está la mayor parte de los puestos con mejor encaje para ti.",
+  children:[
+  { id:"prop", name:"Prop trading y market makers", sub:"Optiver, IMC, Flow Traders, Da Vinci, Jane Street, Citadel Securities…",
+    blurb:"Operan exclusivamente con su propio dinero y sin clientes. Ganan dando liquidez (comprando y vendiendo continuamente en miles de instrumentos) y con estrategias de muy corto plazo. Son firmas planas, muy tecnológicas y de las mejor pagadas para recién graduados. Las grandes sedes europeas están en Ámsterdam, Londres y Dublín; en España apenas hay presencia.",
+    note:"<strong>Aquí la división por oficinas funciona distinto.</strong> No hay clientes, así que «front office» significa «cerca del P&L»: traders, researchers y developers trabajan en el mismo equipo y la tecnología es el negocio, no un soporte. El middle office (riesgo y trading operations) está muy pegado a la mesa y a veces es una vía hacia trader. El back office es pequeño y muy automatizado.",
+    children:[
+    G("prop-fo","front",[
+      {id:"pt-trader", t:"Trader de market making", en:"Graduate trader / options trader", v:"ambicioso", fit:5, acc:2,
+       d:"Pone precios de compra y venta en miles de instrumentos (opciones, ETFs, futuros) y gana con el diferencial y gestionando bien el riesgo. Trabaja con algoritmos: los supervisa, ajusta sus parámetros y toma decisiones en los momentos de estrés.",
+       day:["Preparar la sesión: eventos, volatilidad y posiciones","Supervisar los algoritmos y ajustar parámetros en tiempo real","Gestionar el riesgo agregado del libro (delta, vega)","Repasar el día con researchers y developers y proponer mejoras"],
+       sk:["Cálculo mental rápido y probabilidad","Decidir con información incompleta","Teoría de opciones","Python para análisis"],
+       entry:"Contratan graduados sin experiencia previa: lo que cuenta son los tests online (cálculo mental, secuencias, probabilidad) y los juegos de market making en la entrevista. Recruiting continuo, con internships de verano y plazas de graduado.",
+       sal:[["Ámsterdam","€100–200k+"],["Londres","£150–300k+"]], life:"45–55 h/sem · muy intenso, sin jornadas eternas",
+       exits:"Hedge funds, otros market makers, fundar tu propia firma.",
+       why:"Probablemente el encaje más alto de todo el mapa: mercados, números, tecnología y un ambiente de élite muy bien pagado. Tu experiencia de trading cuenta poco en el proceso: cuentan los tests. Empieza ya con cálculo mental y probabilidad.",
+       firms:"Optiver, IMC, Flow Traders, Da Vinci, Jane Street, Citadel Securities, SIG (Dublín), XTX Markets, Maven, Mako"},
+      {id:"pt-qr", t:"Quant researcher (prop)", en:"Quantitative researcher", v:"ambicioso", fit:5, acc:2,
+       d:"Desarrolla los modelos de valor teórico, volatilidad y señales a corto plazo que alimentan los algoritmos de market making, con horizontes de milisegundos a días.",
+       day:["Explorar datos de order book y ejecuciones","Diseñar y validar señales y modelos de volatilidad","Medir el impacto real de un cambio en producción","Trabajar codo con codo con traders y developers"],
+       sk:["Estadística y ML de alto nivel","Python; C++ ayuda","Probabilidad (entrevistas exigentes)","Rigor contra el overfitting"],
+       entry:"Tests de probabilidad y estadística, prueba de programación y entrevistas técnicas. Optiver, IMC y Da Vinci contratan con máster; Jane Street y XTX valoran mucho la base matemática.",
+       sal:[["Ámsterdam","€100–180k+"],["Londres","£150–300k+"]], life:"45–55 h/sem",
+       exits:"Hedge funds sistemáticos, otros market makers.",
+       why:"Encaje máximo con tu formación en ML y tu TFG, con un filtro tan duro como el de los hedge funds. Si te preparas bien la probabilidad, es una apuesta que merece la pena.",
+       firms:"Optiver, IMC, Da Vinci, Jane Street, XTX Markets, Hudson River Trading, Jump Trading"},
+      {id:"pt-data", t:"Ingeniero de datos / ML para trading", en:"Data / ML engineer · trading", v:"objetivo", fit:4, acc:3,
+       d:"Construye las plataformas de datos de mercado (tick data, order books) y las herramientas de ML que usan researchers y traders a diario.",
+       sk:["Ingeniería de datos a gran escala","Python; C++ o Rust ayudan","Sistemas distribuidos","Entender el negocio de trading"],
+       entry:"Proceso de ingeniería de software (algoritmos, diseño de sistemas) con preguntas de negocio.",
+       sal:[["Ámsterdam","€80–130k"],["Londres","£100–160k"]], life:"45–50 h/sem",
+       exits:"Quant developer, research, otras firmas de trading.",
+       why:"Es exactamente lo que estudia tu grado. Es una entrada realista a firmas de élite y te sienta junto a traders y researchers, con movilidad interna hacia research.",
+       firms:"Optiver, IMC, Flow Traders, Jane Street, G-Research, Hudson River Trading"},
+      {id:"pt-dev", t:"Software engineer de baja latencia", en:"Low-latency C++ developer", v:"lejano", fit:3, acc:2,
+       d:"Programa los sistemas de trading donde cada microsegundo cuenta: C++ moderno, redes y, a veces, FPGA. En un market maker es tan importante como el trader.",
+       sk:["C++ moderno avanzado","Sistemas operativos y redes","Optimización de rendimiento"],
+       entry:"Procesos de ingeniería muy exigentes en C++.",
+       sal:[["Ámsterdam","€90–150k"],["Londres","£120–200k+"]], life:"45–50 h/sem",
+       exits:"Cualquier firma de trading o tecnológica.",
+       why:"Muy bien pagado y prestigioso, pero es ingeniería de sistemas pura. Solo encaja si te atrae más programar a bajo nivel que el mercado.",
+       firms:"Optiver, IMC, Jane Street, Citadel Securities, XTX Markets"}
+    ], "Front office · núcleo de trading (traders, researchers, developers)"),
+    G("prop-mo","middle",[
+      {id:"pt-risk", t:"Riesgo y trading operations", en:"Risk & trading operations", v:"plan-b", fit:3, acc:4,
+       d:"Vigila posiciones, límites y el funcionamiento de los sistemas en tiempo real, y resuelve incidencias con mercados y brokers. En un market maker está muy cerca del trading.",
+       sk:["Atención y rapidez","Conocimiento de mercados y productos","Python y SQL"],
+       entry:"Procesos más accesibles que los de trader; a veces te ofrecen este puesto si te quedas cerca en el de trader.",
+       sal:[["Ámsterdam","€60–90k"],["Londres","£60–90k"]], life:"45–50 h/sem, con turnos",
+       exits:"Trader dentro de la misma firma, riesgo en hedge funds.",
+       why:"Es la puerta lateral a un market maker si no superas el proceso de trader. Ambiente y sueldo de prop, aunque con menos recorrido.",
+       firms:"Optiver, IMC, Flow Traders, Da Vinci"}
+    ], "Middle office · control de trading, pegado a la mesa"),
+    G("prop-bo","back",[
+      {id:"pt-back", t:"Finanzas, compliance y liquidación", en:"Finance / settlements", v:"evitar", fit:1, acc:4,
+       d:"Contabilidad, liquidación con brokers y cámaras, informes regulatorios.",
+       sal:[["Ámsterdam","€50–70k"]], life:"40–45 h/sem", why:"Back office, aunque en una firma muy buena."}
+    ], "Back office · soporte pequeño y automatizado")
+    ]},
+  { id:"hf", name:"Hedge funds", sub:"Citadel, Renaissance, Two Sigma, Millennium, Man AHL, QRT…",
+    blurb:"Fondos que gestionan dinero de grandes inversores con estrategias libres: largo y corto, apalancamiento, derivados. Los hay discrecionales (deciden personas) y sistemáticos (deciden modelos), y multi-manager con muchos equipos independientes («pods»). Londres es el centro europeo.",
+    note:"<strong>División por oficinas en un hedge fund.</strong> El front office es el equipo de inversión (portfolio managers, analistas, researchers, quants). El middle office es riesgo y operaciones de trading, con mucho poder en los fondos multi-manager. El back office (administración del fondo) suele subcontratarse.",
+    children:[
+    G("hf-fo","front",[
+      {id:"hf-qr", t:"Quant researcher", en:"Quantitative researcher · systematic", v:"ambicioso", fit:5, acc:1,
+       d:"Busca señales predictivas en datos de mercado y alternativos, las convierte en estrategias y las valida con rigor estadístico. Es el núcleo intelectual de un fondo sistemático.",
+       day:["Explorar datos y formular hipótesis","Backtests con control estricto del overfitting","Leer papers y replicar ideas","Pasar estrategias a producción con los developers"],
+       sk:["Estadística, probabilidad y ML de alto nivel","Python y a menudo C++","Escepticismo científico","Publicaciones o competiciones ayudan"],
+       entry:"Muchos piden doctorado; algunos (QRT, Squarepoint, G-Research, Man AHL) contratan con máster excelente. Procesos de 4 a 8 rondas: probabilidad, estadística, programación y un caso de research.",
+       sal:[["Londres","£120–250k+"]], life:"50–60 h/sem",
+       exits:"Portfolio manager sistemático, otros fondos.",
+       why:"Es el puesto que mejor encaja con lo que estudias, pero el filtro es durísimo y sin doctorado juegas en desventaja. Preséntate con un portafolio (TFG publicado, competiciones como Numerai o las de G-Research) y apunta a fondos que contratan con máster.",
+       firms:"Two Sigma, D.E. Shaw, Citadel, Man AHL, QRT, Squarepoint, G-Research, CFM (París), Renaissance (solo EE. UU. y doctorados)"},
+      {id:"hf-qt", t:"Quant trader", en:"Quantitative trader · execution quant", v:"ambicioso", fit:5, acc:2,
+       d:"Opera y ajusta estrategias sistemáticas en producción: decide el tamaño de las posiciones, cómo ejecutar y cuándo apagar una estrategia. Más cerca del P&L diario que el researcher.",
+       sk:["Mercados y microestructura","Estadística","Python","Gestión de riesgo"],
+       entry:"Similar al de researcher, con más peso de mercados y toma de decisiones.",
+       sal:[["Londres","£100–200k+"]], life:"50–60 h/sem",
+       exits:"Portfolio manager, otros fondos sistemáticos.",
+       why:"Une tu experiencia de trading con lo cuantitativo. El filtro es muy alto, pero con máster es más accesible que research.",
+       firms:"Citadel, Millennium, QRT, Squarepoint, Man AHL, Winton"},
+      {id:"hf-ds", t:"Data scientist de datos alternativos", en:"Alternative data scientist", v:"objetivo", fit:5, acc:3,
+       d:"Evalúa y procesa datos no tradicionales (transacciones con tarjeta, imágenes de satélite, texto, datos web) para anticipar los resultados de empresas o la macro. Trabaja para portfolio managers discrecionales y sistemáticos.",
+       sk:["ML y NLP","Python y SQL a escala","Limpieza de datos ruidosos","Entender qué mueve a una empresa"],
+       entry:"Entrevistas de data science con un caso de inversión.",
+       sal:[["Londres","£80–140k"]], life:"45–55 h/sem",
+       exits:"Quant research, data science en otros fondos.",
+       why:"Es tu formación aplicada directamente a la inversión, y es un rol en crecimiento. Muy buena puerta de entrada a un hedge fund de primer nivel.",
+       firms:"Millennium, Point72, Balyasny, Citadel, Marshall Wace"},
+      {id:"hf-qd", t:"Quant developer", en:"Quantitative developer", v:"objetivo", fit:4, acc:3,
+       d:"Construye la infraestructura de research y trading: backtesters, pipelines de datos y sistemas de ejecución. En muchos fondos es la vía más accesible al núcleo del equipo.",
+       sk:["Python avanzado y C++","Ingeniería de software: tests, rendimiento","Bases de datos y sistemas distribuidos","Suficiente finanzas para hablar con researchers"],
+       entry:"Procesos de ingeniería (algoritmos, diseño de sistemas) con preguntas de finanzas.",
+       sal:[["Londres","£90–150k"]], life:"45–55 h/sem",
+       exits:"Quant research, quant developer sénior en otros fondos.",
+       why:"Tu grado en Ingeniería de Datos te da una base que los perfiles de finanzas no tienen. Si refuerzas C++ y algoritmia, es la entrada más realista a un hedge fund de élite, con movilidad posterior hacia research.",
+       firms:"Two Sigma, G-Research, Man AHL, QRT, Squarepoint, Citadel"},
+      {id:"hf-pod", t:"Analista de un pod discrecional", en:"Long/short equity analyst", v:"lejano", fit:3, acc:1,
+       d:"Cubre un sector para un portfolio manager: modelos de empresas, reuniones con directivos e ideas de inversión largas y cortas. Muy orientado a resultados.",
+       sk:["Análisis fundamental profundo","Valoración","Criterio y convicción"],
+       entry:"Casi siempre tras 2–3 años en banca de inversión o research.",
+       sal:[["Londres","£100–200k+"]], life:"55–70 h/sem",
+       exits:"Portfolio manager.",
+       why:"Suele llegar gente de banca de inversión o research con experiencia. Tu perfil encaja mejor en el lado sistemático.",
+       firms:"Millennium, Point72, Citadel, Balyasny, Marshall Wace"}
+    ], "Front office · equipo de inversión"),
+    G("hf-mo","middle",[
+      {id:"hf-risk", t:"Risk manager / risk quant", en:"Risk management", v:"plan-b", fit:4, acc:3,
+       d:"Vigila la exposición de cada portfolio manager y del fondo: límites de pérdida, correlaciones y factores. En los multi-manager tiene mucho poder: puede recortar el capital de un equipo.",
+       sk:["Modelos de riesgo y factores","Python","Estadística"],
+       entry:"Graduados con perfil cuantitativo o desde riesgos en banca.",
+       sal:[["Londres","£70–110k"]], life:"45–55 h/sem",
+       exits:"Risk sénior, a veces investment.",
+       why:"Es middle office, pero en un hedge fund, con buen sueldo y cerca de las decisiones. Puede ser tu vía de entrada si research está cerrado.",
+       firms:"Millennium, Citadel, Balyasny, ExodusPoint, Man Group"}
+    ]),
+    G("hf-bo","back",[
+      {id:"hf-ops", t:"Operaciones y administración de fondos", en:"Fund operations", v:"evitar", fit:1, acc:4,
+       d:"Conciliaciones, valoración liquidativa, relación con brokers prime y administradores.",
+       sal:[["Londres","£45–60k"]], life:"45 h/sem", why:"Back office, aunque en un entorno de élite."}
+    ])
+    ]},
+  { id:"am", name:"Gestoras de activos (AM)", sub:"Fondos de inversión, mandatos institucionales, ETFs",
+    blurb:"Gestionan el dinero de particulares e instituciones a cambio de una comisión, con objetivos a medio y largo plazo y menos apalancamiento que un hedge fund. Van desde gigantes globales (BlackRock, Amundi) hasta gestoras value españolas (Bestinver, Cobas, azValor, Magallanes).",
+    children:[
+    G("am-fo","front",[
+      {id:"am-quant", t:"Quant de inversión sistemática", en:"Systematic investment quant", v:"objetivo", fit:5, acc:3,
+       d:"Investiga y mantiene estrategias sistemáticas: modelos de factores, asignación de activos, optimización de carteras y señales con ML. Las gestoras grandes tienen equipos dedicados.",
+       day:["Investigar y probar factores o señales","Optimizar carteras con restricciones reales","Explicar las estrategias a gestores y clientes","Mantener el código de producción"],
+       sk:["Econometría y ML","Python","Teoría de carteras","Comunicar resultados"],
+       entry:"Graduados con máster cuantitativo; prácticas en gestoras con equipos sistemáticos.",
+       sal:[["Madrid","€40–60k"],["Londres","£60–95k"]], life:"45–50 h/sem",
+       exits:"Hedge funds sistemáticos, portfolio manager cuantitativo.",
+       why:"Encaje muy alto y menos competencia que en un hedge fund. Tu TFG y el MIAX encajan directamente. En España hay pocos equipos, así que mira también Londres, París y Róterdam.",
+       firms:"BlackRock Systematic, Robeco, Amundi, Man Group, Schroders, Santander AM, BBVA AM"},
+      {id:"am-dealer", t:"Trader de ejecución (dealer)", en:"Buy-side execution trader", v:"plan-b", fit:4, acc:4,
+       d:"Ejecuta las órdenes de los gestores al mejor precio posible: elige broker, algoritmo y momento, y mide la calidad de ejecución (TCA).",
+       sk:["Microestructura y algoritmos de ejecución","Análisis de costes de transacción","Calma bajo presión"],
+       entry:"Graduados o desde middle office de la gestora.",
+       sal:[["Madrid","€38–55k"],["Londres","£55–80k"]], life:"45–50 h/sem",
+       exits:"Trading en banca, gestión de carteras.",
+       why:"Mercado puro y con uso de algoritmos de ejecución. Paga menos que un trader de banco y el riesgo no es tuyo, pero es buena puerta al buy side.",
+       firms:"Santander AM, BBVA AM, CaixaBank AM, Bestinver, Amundi, BlackRock"},
+      {id:"am-analyst", t:"Analista de inversiones", en:"Buy-side equity / fixed income analyst", v:"plan-b", fit:3, acc:3,
+       d:"Analiza empresas, bonos o sectores y propone ideas al gestor. El trabajo de base de una gestora fundamental.",
+       sk:["Contabilidad y valoración","Pensamiento crítico","Escribir tesis de inversión","El CFA se da casi por hecho con el tiempo"],
+       entry:"Prácticas en gestoras; muchas value españolas contratan poco y por contactos.",
+       sal:[["Madrid","€35–50k"],["Londres","£50–75k"]], life:"45–55 h/sem",
+       exits:"Gestor de carteras, hedge funds.",
+       why:"Inversión pura, pero fundamental: contabilidad y valoración más que modelos. Tu perfil no es diferencial aquí.",
+       firms:"Bestinver, Cobas, azValor, Magallanes, Santander AM, Amundi, Fidelity"},
+      {id:"am-pm", t:"Gestor de carteras", en:"Portfolio manager", v:"ambicioso", fit:4, acc:1,
+       d:"Toma las decisiones de inversión de un fondo o mandato y responde de su rentabilidad frente al índice. No es un puesto de entrada: se llega tras 5–10 años como analista o quant.",
+       sk:["Historial de buenas decisiones","Gestión de riesgo","Comunicación con clientes"],
+       entry:"Promoción interna desde analista o quant.",
+       sal:[["Madrid","€80–150k+"],["Londres","£150–300k+"]], life:"50–55 h/sem",
+       exits:"Fundar una gestora, CIO.",
+       why:"Buen destino a largo plazo. Llegarás antes por la vía cuantitativa que por la fundamental. Cifras de nivel sénior, no de entrada.",
+       firms:"Cualquier gestora"},
+      {id:"am-sales", t:"Ventas institucionales y distribución", en:"Institutional sales / distribution", v:"lejano", fit:2, acc:4,
+       d:"Vende los fondos de la gestora a bancos, aseguradoras, fondos de pensiones y plataformas.",
+       sal:[["Madrid","€35–55k"],["Londres","£50–80k"]], life:"45–50 h/sem",
+       why:"Trato con clientes, pero comercial puro y sin mercados ni cuantitativo."}
+    ]),
+    G("am-mo","middle",[
+      {id:"am-data", t:"Data scientist de inversión", en:"Investment data science / engineering", v:"plan-b", fit:4, acc:4,
+       d:"Construye las plataformas de datos y las herramientas de análisis del equipo de inversión y, cada vez más, modelos de NLP y ML para los gestores.",
+       sk:["Python y SQL","ML y NLP","Ingeniería de datos"],
+       sal:[["Madrid","€38–52k"],["Londres","£55–80k"]], life:"40–45 h/sem",
+       exits:"Quant de inversión, hedge funds.",
+       why:"Encaja con tu formación y te pone junto al equipo de inversión. Buen trampolín hacia quant."},
+      {id:"am-risk", t:"Riesgos y performance", en:"Investment risk & performance", v:"plan-b", fit:3, acc:5,
+       d:"Mide el riesgo y la rentabilidad de los fondos, atribuye resultados y controla límites.",
+       sal:[["Madrid","€32–45k"],["Londres","£45–65k"]], life:"40–45 h/sem",
+       why:"Accesible y técnico, pero de control. Útil para entrar en una gestora."}
+    ]),
+    G("am-bo","back",[
+      {id:"am-ops", t:"Operaciones y contabilidad de fondos", en:"Fund operations / accounting", v:"evitar", fit:1, acc:5,
+       d:"Cálculo del valor liquidativo, conciliaciones y relación con depositarios.",
+       sal:[["Madrid","€25–34k"]], life:"40 h/sem", why:"Back office puro."}
+    ])
+    ]},
+  { id:"pf", name:"Fondos de pensiones y family offices", sub:"Capital institucional y grandes patrimonios familiares",
+    blurb:"Los grandes fondos de pensiones (APG y PGGM en Países Bajos, NBIM en Noruega, los canadienses) gestionan carteras enormes con equipos propios. Los family offices invierten el patrimonio de una familia. En España los fondos de pensiones son pequeños y suelen delegar en gestoras.",
+    children:[
+    G("pf-fo","front",[
+      {id:"pf-analyst", t:"Analista de inversiones institucional", en:"Pension fund investment analyst", v:"plan-b", fit:3, acc:3,
+       d:"Asignación de activos, gestión interna de renta fija y variable, y selección de gestoras externas para un gran fondo de pensiones.",
+       sk:["Asignación de activos","Python y Excel","Visión de largo plazo"],
+       entry:"Programas de graduados de los grandes fondos (sobre todo fuera de España).",
+       sal:[["Madrid","€35–50k"],["Ámsterdam","€55–80k"]], life:"40–45 h/sem",
+       exits:"Gestoras, consultoría de inversiones.",
+       why:"Inversión institucional a gran escala, buena calidad de vida y cada vez más cuantitativa. Las oportunidades buenas están fuera de España.",
+       firms:"APG, PGGM, NBIM, Fondo de Reserva de la Seguridad Social"},
+      {id:"fo-analyst", t:"Analista de family office", en:"Family office investment analyst", v:"lejano", fit:2, acc:2,
+       d:"Analiza inversiones de todo tipo para una familia: participaciones en empresas, inmobiliario, fondos, private equity. Equipos pequeños con mucha variedad.",
+       sal:[["Madrid","€35–55k"],["Londres","£50–80k"]], life:"40–50 h/sem",
+       why:"Variedad y trato directo con la familia, pero se entra por contactos y apenas hay espacio para lo cuantitativo.",
+       firms:"Pontegadea, Corporación Financiera Alba, Torreal, multi-family offices"}
+    ]),
+    G("pf-mo","middle",[
+      {id:"pf-alm", t:"ALM y riesgos de pensiones", en:"Pension ALM / liability-driven investing", v:"plan-b", fit:4, acc:4,
+       d:"Modeliza los pasivos (las pensiones que habrá que pagar) y diseña la estrategia de inversión para cubrirlos frente a tipos de interés, inflación y longevidad.",
+       sk:["Matemática actuarial y financiera","Python","Tipos de interés y derivados"],
+       sal:[["Madrid","€35–48k"],["Ámsterdam","€55–80k"]], life:"40 h/sem",
+       why:"Técnico y bien valorado, con buena calidad de vida. Lejos de la intensidad de mercados que buscas."}
+    ]),
+    G("pf-bo","back",[
+      {id:"pf-admin", t:"Administración de partícipes", en:"Pension administration", v:"evitar", fit:1, acc:5,
+       d:"Gestión de aportaciones, prestaciones y atención a partícipes.",
+       sal:[["Madrid","€24–32k"]], life:"40 h/sem", why:"Back office puro."}
+    ])
+    ]},
+  { id:"pe", name:"Private equity y venture capital", sub:"Compra de empresas y financiación de startups",
+    blurb:"El private equity compra empresas (a menudo con deuda), las mejora y las vende en 4–7 años. El venture capital invierte en startups en fases tempranas. Ambos son muy prestigiosos, con equipos pequeños y entrada muy selectiva.",
+    children:[
+    G("pe-fo","front",[
+      {id:"vc-analyst", t:"Analista de venture capital", en:"VC analyst", v:"plan-b", fit:3, acc:3,
+       d:"Busca y analiza startups, apoya las decisiones de inversión y el seguimiento de las participadas.",
+       sk:["Conocimiento tecnológico","Análisis de mercados","Red en el ecosistema"],
+       entry:"Prácticas en fondos; valoran conocer el sector tecnológico.",
+       sal:[["Madrid","€30–45k"],["Londres","£45–70k"]], life:"45–55 h/sem",
+       exits:"Startups, corporate venture.",
+       why:"Tu conocimiento de IA es valioso para evaluar startups, pero los sueldos de entrada son bajos y el sector es pequeño en España.",
+       firms:"Seaya, Kibo, K Fund, Samaipata, JME Ventures; Index, Atomico, Balderton (Londres)"},
+      {id:"pe-assoc", t:"Analista / associate de private equity", en:"PE analyst / associate", v:"lejano", fit:2, acc:1,
+       d:"Busca empresas para comprar, hace la due diligence y el modelo LBO, y después trabaja con la dirección para crear valor hasta vender.",
+       sk:["Modelos LBO","Due diligence","Juicio de inversión"],
+       entry:"Casi siempre tras 2–3 años en banca de inversión o consultoría estratégica.",
+       sal:[["Madrid","€70–120k"],["Londres","£120–200k"]], life:"60–80 h/sem",
+       exits:"Socio de fondo, dirección financiera de empresas.",
+       why:"Muy prestigioso, pero el camino natural pasa antes por banca de inversión. Con tu perfil no es la ruta más eficiente.",
+       firms:"KKR, Blackstone, CVC, EQT, Carlyle, Portobello, MCH, Nazca, Miura"}
+    ]),
+    G("pe-mo","middle",[
+      {id:"pe-value", t:"Value creation y analítica de portafolio", en:"Portfolio operations / data & analytics", v:"plan-b", fit:4, acc:3,
+       d:"Equipos internos que mejoran las empresas participadas: pricing, operaciones, digitalización y datos. Los grandes fondos ya tienen equipos de data science.",
+       sk:["Data science aplicada a negocio","Python y SQL","Comunicación con directivos"],
+       sal:[["Madrid","€45–70k"],["Londres","£70–110k"]], life:"50–55 h/sem",
+       exits:"Inversión dentro del fondo, dirección en participadas.",
+       why:"Una entrada lateral al private equity que sí usa tu perfil. Es un rol nuevo y con pocas plazas, pero en crecimiento.",
+       firms:"KKR, Blackstone, CVC, EQT, Bain Capital"}
+    ]),
+    G("pe-bo","back",[
+      {id:"pe-fa", t:"Administración de fondos e informes", en:"Fund administration / investor reporting", v:"evitar", fit:1, acc:4,
+       d:"Llamadas de capital, distribuciones, contabilidad del fondo e informes a los inversores.",
+       sal:[["Madrid","€30–40k"]], life:"40–45 h/sem", why:"Back office."}
+    ])
+    ]}
+  ]},
+
+{ id:"otros", name:"Otros", sub:"Reguladores, consultoría, fintech y finanzas corporativas",
+  blurb:"Entidades que supervisan, asesoran o dan servicio al sistema financiero, y los departamentos financieros de las empresas. Algunas son buenos trampolines; pocas cumplen a la vez «élite», «bien pagado» y «mercados».",
+  children:[
+  { id:"reg", name:"Reguladores y bancos centrales", sub:"Banco de España, CNMV, BCE",
+    blurb:"Supervisan bancos y mercados y ejecutan la política monetaria. Prestigio, estabilidad y buena formación; sueldos de sector público alto. En España se entra sobre todo por oposición.",
+    note:"<strong>Aquí no hay front, middle ni back office.</strong> Son organismos públicos sin P&L ni clientes; los puestos se agrupan por función. El más cercano a los mercados es el de operaciones de mercado del banco central.",
+    children:[
+    G("reg-na","na",[
+      {id:"reg-ecb", t:"BCE: Graduate Programme y prácticas", en:"ECB Graduate Programme / traineeship", v:"plan-b", fit:4, acc:2,
+       d:"Programas de entrada del Banco Central Europeo en Fráncfort: uno o dos años en política monetaria, operaciones de mercado, supervisión o datos. El idioma de trabajo es el inglés.",
+       sk:["Economía y datos","Inglés","Python, R o Stata"],
+       entry:"Convocatorias anuales con plazas muy limitadas.",
+       sal:[["Fráncfort","Buen neto: tributa al impuesto de la UE"]], life:"40 h/sem",
+       exits:"Bancos centrales, banca, organismos internacionales.",
+       why:"Prestigio europeo y muy buena red. Valoran datos y economía. Buena opción si te atrae lo institucional, aunque no es el entorno de mercados que buscas."},
+      {id:"reg-cnmv", t:"Técnico de la CNMV", en:"Market supervision", v:"plan-b", fit:4, acc:2,
+       d:"Vigila los mercados de valores: abuso de mercado, folletos de emisión, gestoras y empresas de servicios de inversión. La vigilancia de mercado usa cada vez más análisis de datos para detectar manipulación.",
+       sk:["Mercados y regulación","Análisis de datos","Oposición"],
+       entry:"Oposición con temario de finanzas, economía y derecho.",
+       sal:[["Madrid","€40–55k"]], life:"37,5–40 h/sem",
+       exits:"Compliance, regulación en entidades privadas.",
+       why:"Usa tu conocimiento de mercados y de datos en un entorno estable, pero lejos de la élite bien pagada que buscas."},
+      {id:"reg-bde", t:"Técnico / economista del Banco de España", en:"Central bank economist / analyst", v:"plan-b", fit:3, acc:2,
+       d:"Investigación económica, estabilidad financiera, estadística y operaciones de mercado (el Banco de España opera para el Eurosistema).",
+       sk:["Economía y econometría","Datos","Oposición"],
+       entry:"Oposición o procesos específicos para perfiles de datos.",
+       sal:[["Madrid","€45–60k"]], life:"37,5–40 h/sem",
+       exits:"BCE, organismos internacionales, banca.",
+       why:"Prestigio, estabilidad y buen sueldo para el sector público. Operaciones y estabilidad financiera tocan mercados, pero no es el entorno de élite que buscas."},
+      {id:"reg-sup", t:"Inspector / supervisor bancario", en:"Banking supervisor (SSM)", v:"plan-b", fit:3, acc:2,
+       d:"Supervisa la solvencia y los riesgos de los bancos dentro del Mecanismo Único de Supervisión, incluidos sus modelos internos.",
+       sal:[["Madrid","€45–60k"]], life:"40 h/sem",
+       exits:"Riesgos y regulación en bancos (salto muy valorado).",
+       why:"Muy buen salto posterior al sector privado, pero no es un puesto de mercados ni de clientes."}
+    ], "Funciones técnicas")
+    ]},
+  { id:"con", name:"Consultoría", sub:"Estrategia, riesgos y operaciones corporativas",
+    blurb:"Asesora a bancos, gestoras y aseguradoras. Va desde la estrategia pura (McKinsey, BCG, Bain, Oliver Wyman) hasta la consultoría técnica de riesgos (Management Solutions, Big Four), muy fuerte en Madrid.",
+    note:"<strong>Aquí no aplica front, middle ni back office.</strong> Todos los consultores trabajan de cara al cliente; la distinción útil es el tipo de proyecto.",
+    children:[
+    G("con-na","na",[
+      {id:"con-risk", t:"Consultor de riesgos y quant", en:"Risk & quant consulting", v:"plan-b", fit:3, acc:5,
+       d:"Proyectos para bancos sobre modelos de riesgo, validación, regulación y datos. Management Solutions, con sede en Madrid, es la referencia del sector y contrata muchos graduados STEM.",
+       sk:["Modelización estadística","Python, SAS o SQL","Trabajo por proyectos","Viajar"],
+       entry:"Procesos masivos de graduados, muy accesibles.",
+       sal:[["Madrid","€28–35k"],["Londres","£40–55k"]], life:"50–60 h/sem",
+       exits:"Riesgos y validación en bancos, quant.",
+       why:"Muy accesible y te enseña cómo funciona un banco por dentro. Sueldo de entrada bajo y muchas horas: úsalo como trampolín de 2–3 años, no como destino.",
+       firms:"Management Solutions, Deloitte, PwC, EY, KPMG, AFI"},
+      {id:"con-mbb", t:"Consultor de estrategia (servicios financieros)", en:"Strategy consulting · FS practice", v:"plan-b", fit:3, acc:2,
+       d:"Proyectos de estrategia para bancos, aseguradoras y gestoras: crecimiento, costes, fusiones y transformación digital.",
+       sk:["Resolución estructurada de problemas","Casos de entrevista","Comunicación con directivos"],
+       entry:"Procesos con case interviews que requieren preparación específica.",
+       sal:[["Madrid","€50–70k"],["Londres","£55–80k"]], life:"55–70 h/sem",
+       exits:"Private equity, dirección en empresas, startups.",
+       why:"Élite, bien pagado y con mucho trato con directivos de banca. Pero es estrategia, no mercados ni modelos.",
+       firms:"McKinsey, BCG, Bain, Oliver Wyman"},
+      {id:"con-deals", t:"Deals: valoración y due diligence", en:"Transaction services / valuations", v:"lejano", fit:2, acc:4,
+       d:"Valoraciones, due diligence financiera y modelización para operaciones de M&A.",
+       sal:[["Madrid","€28–35k"]], life:"50–65 h/sem",
+       exits:"Banca de inversión, private equity.",
+       why:"Puerta al mundo de M&A, con perfil contable que no aprovecha lo tuyo.",
+       firms:"Deloitte, PwC, EY, KPMG"}
+    ], "Puestos")
+    ]},
+  { id:"ft", name:"Fintech", sub:"Cripto market making, neobancos, roboadvisors",
+    blurb:"Empresas tecnológicas de servicios financieros. Algunas hacen trading algorítmico real (market making en criptoactivos); otras aplican ML a crédito, pagos o gestión automatizada.",
+    note:"<strong>La división por oficinas se diluye.</strong> En una fintech se organiza por producto y equipo. Las firmas de cripto market making funcionan como un market maker tradicional en pequeño.",
+    children:[
+    G("ft-na","na",[
+      {id:"ft-crypto", t:"Quant trader en cripto market making", en:"Crypto market making · quant trader", v:"objetivo", fit:5, acc:3,
+       d:"Firmas que hacen market making en exchanges centralizados y descentralizados, con mercados abiertos 24/7. Más pequeñas y abiertas que las firmas tradicionales.",
+       sk:["Trading algorítmico","Python; Rust o C++ ayudan","Microestructura","Gestión de riesgo"],
+       entry:"Procesos más flexibles: pesa mucho lo que hayas construido.",
+       sal:[["Londres","£80–150k"],["Bruselas","€60–100k"]], life:"45–55 h/sem, con guardias",
+       exits:"Market makers tradicionales, hedge funds.",
+       why:"Es tu TFG en un sector joven donde importa más lo que sabes hacer que el pedigrí. Más riesgo (ciclos cripto, regulación), pero muy buena forma de entrar en trading algorítmico.",
+       firms:"Wintermute, Keyrock, GSR, Flowdesk"},
+      {id:"ft-ml", t:"ML engineer / data scientist en fintech", en:"Credit, fraud & pricing ML", v:"plan-b", fit:4, acc:4,
+       d:"Scoring de crédito, detección de fraude, pricing o personalización en neobancos y fintechs.",
+       sk:["ML en producción","Python y SQL","Diseño de experimentos"],
+       sal:[["Madrid","€38–55k"],["Londres","£60–90k"]], life:"40–50 h/sem",
+       exits:"Tecnológicas, data science de inversión.",
+       why:"Muy accesible y bien pagado en Londres. El producto es tecnología financiera, no mercados ni clientes institucionales.",
+       firms:"Revolut, N26, Klarna, Bit2Me, MyInvestor"},
+      {id:"ft-robo", t:"Quant de gestión automatizada", en:"Robo-advisor quant", v:"plan-b", fit:4, acc:3,
+       d:"Diseña las carteras modelo, el rebalanceo y la optimización fiscal de gestoras automatizadas.",
+       sk:["Teoría de carteras","Python","Producto"],
+       sal:[["Madrid","€35–50k"]], life:"40–45 h/sem",
+       exits:"Gestoras cuantitativas.",
+       why:"Asignación de activos cuantitativa aplicada, en equipos pequeños donde tendrías responsabilidad pronto. Sueldos modestos.",
+       firms:"Indexa Capital, Finizens, inbestMe, Scalable Capital"}
+    ], "Puestos")
+    ]},
+  { id:"cf", name:"Finanzas corporativas (en empresa)", sub:"Departamentos financieros de grandes empresas",
+    blurb:"La dirección financiera de una empresa no financiera: tesorería, financiación, M&A corporativo, planificación y relación con inversores. Buen equilibrio de vida y estabilidad.",
+    note:"<strong>En una empresa no financiera todo el departamento financiero es «staff».</strong> La distinción útil es entre puestos que tocan mercados u operaciones corporativas (tesorería, M&A) y puestos de control (FP&A).",
+    children:[
+    G("cf-na","na",[
+      {id:"cf-tes", t:"Tesorería corporativa y coberturas", en:"Corporate treasury", v:"lejano", fit:3, acc:4,
+       d:"Gestiona la liquidez, la financiación y los riesgos financieros de la empresa: coberturas de divisa, tipos de interés y materias primas.",
+       sal:[["Madrid","€32–45k"]], life:"40–45 h/sem",
+       exits:"Director financiero a largo plazo.",
+       why:"Uso real de derivados desde el lado de la empresa y trato con bancos. Estable, pero con sueldo y ritmo muy distintos a los de mercados.",
+       firms:"Iberdrola, Repsol, Inditex, Telefónica, Ferrovial"},
+      {id:"cf-mna", t:"Desarrollo corporativo / M&A interno", en:"Corporate development", v:"lejano", fit:2, acc:2,
+       d:"Equipo de una gran empresa que busca y ejecuta compras, ventas y alianzas, trabajando con los bancos de inversión desde el lado del cliente.",
+       sal:[["Madrid","€45–70k"]], life:"45–55 h/sem",
+       why:"Buen equilibrio y prestigio, pero se suele llegar desde banca de inversión."},
+      {id:"cf-ir", t:"Relación con inversores", en:"Investor relations", v:"lejano", fit:2, acc:2,
+       d:"Explica la empresa a analistas e inversores, prepara la presentación de resultados y los roadshows.",
+       sal:[["Madrid","€40–60k"]], life:"45 h/sem",
+       why:"Trato con inversores institucionales, pero es comunicación financiera, no análisis ni mercados."},
+      {id:"cf-fpa", t:"FP&A y control de gestión", en:"Financial planning & analysis", v:"lejano", fit:1, acc:5,
+       d:"Presupuestos, previsiones y análisis de resultados internos.",
+       sal:[["Madrid","€28–38k"]], life:"40–45 h/sem",
+       why:"Lejos de lo que buscas."}
+    ], "Puestos")
+    ]}
+  ]}
+];
+
+/* ===================== ÍNDICE ===================== */
+const ROLES = [];
+const BYID = {};
+(function index(nodes, path){
+  nodes.forEach(n=>{
+    if(n.group){
+      n.roles.forEach(r=>{
+        r.office = n.o; r.groupId = n.id;
+        r.path = path.concat([{id:n.id, name: n.o==="na" ? n.label : OFF[n.o]}]);
+        r.entity = path[path.length-1].name;
+        r.side = path[0].name;
+        ROLES.push(r); BYID[r.id]=r;
+      });
+    } else {
+      index(n.children, path.concat([{id:n.id, name:n.name}]));
+    }
+  });
+})(TREE, []);
+
+const FX = {"€":1, "£":1.17, "CHF":1.06};
+function parsePay(s){
+  const m = /(€|£|CHF)\s?(\d+)\s*[–-]\s*(\d+)k/.exec(s);
+  if(!m) return null;
+  return ((+m[2] + +m[3])/2) * FX[m[1]];
+}
+ROLES.forEach(r=>{
+  const mad = r.sal.find(x=>x[0]==="Madrid");
+  const intl = r.sal.filter(x=>x[0]!=="Madrid");
+  r.madTxt = mad ? mad[1] : "—";
+  r.madN = mad ? parsePay(mad[1]) : null;
+  let best = null;
+  intl.forEach(x=>{ const n = parsePay(x[1]); if(!best || (n||0) > (best.n||0)) best = {place:x[0], txt:x[1], n}; });
+  r.intl = best;
+  r.hours = parseInt(r.life, 10) || null;
+  r.hay = norm([r.t, r.en, r.d, r.firms||"", (r.sk||[]).join(" "), r.entity, r.side, r.why].join(" "));
+});
+
+/* ===================== ESTADO ===================== */
+function norm(s){ return String(s).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase(); }
+function esc(s){ return String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+const DEFAULT_EXP = ["sell","buy","otros","cib","gm","gm-fo","prop","prop-fo"];
+const state = {
+  tab:"arbol",
+  expanded:new Set(DEFAULT_EXP),
+  open:new Set(),
+  q:"", verdicts:new Set(VORDER), hideBack:false, highFit:false,
+  saved:new Set(),
+  sort:{key:"rank", dir:1}
+};
+const STORE = "mapa-carreras-finanzas-v1";
+try{
+  const raw = localStorage.getItem(STORE);
+  if(raw){ const o = JSON.parse(raw);
+    if(Array.isArray(o.saved)) o.saved.filter(id=>BYID[id]).forEach(id=>state.saved.add(id));
+    if(Array.isArray(o.expanded)) state.expanded = new Set(o.expanded);
+  }
+}catch(e){}
+function persist(){
+  try{ localStorage.setItem(STORE, JSON.stringify({saved:[...state.saved], expanded:[...state.expanded]})); }catch(e){}
+}
+
+function filtersActive(){
+  return state.q || state.hideBack || state.highFit || state.verdicts.size !== VORDER.length;
+}
+function matches(r){
+  if(!state.verdicts.has(r.v)) return false;
+  if(state.hideBack && r.office==="back") return false;
+  if(state.highFit && r.fit < 4) return false;
+  if(state.q){
+    const terms = norm(state.q).split(/\s+/).filter(Boolean);
+    if(!terms.every(t=>r.hay.includes(t))) return false;
+  }
+  return true;
+}
+function rolesUnder(n){
+  if(n.group) return n.roles;
+  return n.children.flatMap(rolesUnder);
+}
+
+/* ===================== PIEZAS ===================== */
+function dots(n, cls, label){
+  let s = `<span class="dots ${cls||""}" role="img" aria-label="${label} ${n} de 5">`;
+  for(let i=1;i<=5;i++) s += `<i class="${i<=n?"on":""}"></i>`;
+  return s + "</span>";
+}
+function pill(v){ return `<span class="pill v-${v}">${V[v].label}</span>`; }
+
+function roleBody(r){
+  const crumb = r.path.map(p=>esc(p.name)).join(" › ");
+  const saved = state.saved.has(r.id);
+  let main = `<p class="crumb">${crumb}</p><p class="lead">${esc(r.d)}</p>`;
+  if(r.day) main += `<div class="blk"><h4>Un día normal</h4><ul class="day">${r.day.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
+  if(r.sk) main += `<div class="blk"><h4>Qué piden</h4><div class="skills">${r.sk.map(x=>`<span>${esc(x)}</span>`).join("")}</div></div>`;
+  if(r.entry) main += `<div class="blk"><h4>Cómo se entra</h4><p>${esc(r.entry)}</p></div>`;
+  if(r.exits) main += `<div class="blk"><h4>Salidas habituales</h4><p>${esc(r.exits)}</p></div>`;
+
+  let side = `<div class="vbox v-${r.v}"><h4>${V[r.v].label} · para ti</h4><p>${esc(r.why)}</p>
+    <div class="meters"><span>Encaje</span>${dots(r.fit,"","Encaje")}<span>Acceso</span>${dots(r.acc,"acc","Facilidad de acceso")}</div></div>`;
+  side += `<dl class="facts">
+    <div><dt>Retribución año 1 (orientativa)</dt><dd><table class="paytbl">${r.sal.map(s=>`<tr><td>${esc(s[0])}</td><td>${esc(s[1])}</td></tr>`).join("")}</table></dd></div>
+    <div><dt>Ritmo</dt><dd>${esc(r.life)}</dd></div>
+    ${r.firms?`<div><dt>Dónde</dt><dd>${esc(r.firms)}</dd></div>`:""}
+  </dl>
+  <button class="btn savebtn" data-save="${r.id}" aria-pressed="${saved}">${saved?"Guardado en tu lista ✓":"Guardar en mi lista"}</button>`;
+  return `<div class="rb"><div class="rb-main">${main}</div><aside class="rb-side">${side}</aside></div>`;
+}
+
+function roleHTML(r){
+  const open = state.open.has(r.id);
+  return `<li class="role${r.office==="back"?" is-back":""}${open?" open":""}" id="r-${r.id}">
+    <button class="role-head" data-role="${r.id}" aria-expanded="${open}">
+      <span class="rt"><span class="rname">${esc(r.t)}</span><span class="ren">${esc(r.en)}</span>${state.saved.has(r.id)?'<span class="star">★ en tu lista</span>':""}</span>
+      <span class="rmeta">${pill(r.v)}${dots(r.fit,"","Encaje")}<span class="rsal num" title="Madrid, año 1">${esc(r.madTxt!=="—"?r.madTxt:(r.intl?r.intl.txt:"—"))}</span></span>
+    </button>
+    ${open?roleBody(r):""}
+  </li>`;
+}
+
+function countHTML(list){
+  const top = list.filter(r=>r.v==="objetivo"||r.v==="ambicioso").length;
+  return `<span class="cnt">${list.length} puesto${list.length===1?"":"s"}${top?` · <b>${top} para ti</b>`:""}</span>`;
+}
+
+function nodeHTML(n, lvl){
+  const vis = rolesUnder(n).filter(matches);
+  if(!vis.length) return "";
+  const exp = state.expanded.has(n.id);
+  if(n.group){
+    const lab = n.o==="na" ? `<span class="otag">${esc(OFF.na)}</span>` : `<span class="otag ${n.o}">${OFF[n.o]}</span>`;
+    const title = n.label.includes("·") ? n.label.split("·").slice(1).join("·").trim() : (n.o==="na"? n.label : "");
+    return `<li class="grp">
+      <button class="node" data-toggle="${n.id}" aria-expanded="${exp}"><span class="caret"></span>${lab}<span class="nm">${esc(title)}</span>${countHTML(vis)}</button>
+      ${exp?`<ul class="roles">${n.roles.filter(matches).map(roleHTML).join("")}</ul>`:""}
+    </li>`;
+  }
+  return `<li class="l${lvl}">
+    <button class="node" data-toggle="${n.id}" aria-expanded="${exp}"><span class="caret"></span><span class="nm">${esc(n.name)}</span><span class="sub">${esc(n.sub||"")}</span>${countHTML(vis)}</button>
+    ${exp?`<div class="kids">${n.blurb?`<p class="blurb">${esc(n.blurb)}</p>`:""}${n.note?`<p class="note">${n.note}</p>`:""}<ul>${n.children.map(c=>nodeHTML(c,lvl+1)).join("")}</ul></div>`:""}
+  </li>`;
+}
+
+/* ===================== RENDER ===================== */
+const $ = s=>document.querySelector(s);
+
+function renderTree(){
+  const html = TREE.map(n=>nodeHTML(n,1)).join("");
+  $("#tree").innerHTML = html || `<li class="empty">Ningún puesto coincide con estos filtros. Prueba a quitar alguno o a buscar otra palabra.</li>`;
+  const n = ROLES.filter(matches).length;
+  $("#rcount").textContent = filtersActive() ? `${n} de ${ROLES.length} puestos` : `${ROLES.length} puestos`;
+}
+
+function goItem(r){
+  return `<button class="go" data-goto="${r.id}"><b>${esc(r.t)}</b><small>${esc(r.entity)} · ${esc(r.intl? r.intl.place+" "+r.intl.txt : "Madrid "+r.madTxt)}</small>${dots(r.fit,"","Encaje")}</button>`;
+}
+function byFit(a,b){ return b.fit-a.fit || b.acc-a.acc; }
+function tierLists(){
+  return {
+    obj: ROLES.filter(r=>r.v==="objetivo").sort(byFit),
+    amb: ROLES.filter(r=>r.v==="ambicioso").sort(byFit),
+    safe: ROLES.filter(r=>r.v==="plan-b" && r.fit>=4).sort((a,b)=>b.acc-a.acc||b.fit-a.fit)
+  };
+}
+function renderShort(){
+  const t = tierLists();
+  $("#shortlist").innerHTML = `
+    <div class="col"><div class="col-h">${pill("objetivo")}<p>Encajan con tu perfil y puedes conseguirlos preparándote bien.</p></div>${t.obj.map(goItem).join("")}</div>
+    <div class="col"><div class="col-h">${pill("ambicioso")}<p>Lo mejor pagado y más selectivo. Inténtalo en paralelo.</p></div>${t.amb.map(goItem).join("")}</div>
+    <div class="col"><div class="col-h">${pill("plan-b")}<p>Red de seguridad con encaje alto: entras al sector y saltas después.</p></div>${t.safe.slice(0,8).map(goItem).join("")}</div>`;
+  const s = [...state.saved].map(id=>BYID[id]).filter(Boolean);
+  $("#savedlist").innerHTML = s.length ? `<div class="saved-row"><h4>Tu lista</h4>${s.map(r=>`<button class="go" data-goto="${r.id}"><b>${esc(r.t)}</b></button>`).join("")}</div>` : "";
+}
+function renderLegend(){
+  $("#legend").innerHTML = VORDER.map(v=>`<div class="lg">${pill(v)}<p>${V[v].desc}</p></div>`).join("") +
+    `<div class="lg"><span>${dots(4,"","Encaje")} <span class="sub">Encaje</span> &nbsp; ${dots(2,"acc","Acceso")} <span class="sub">Acceso</span></span><p>Encaje: cuánto aprovecha tu perfil y lo que buscas. Acceso: lo fácil que es entrar (5 = muy accesible).</p></div>`;
+  $("#vfilters").innerHTML = VORDER.map(v=>`<button class="pill v-${v}" data-v="${v}" aria-pressed="${state.verdicts.has(v)}">${V[v].label}</button>`).join("");
+}
+
+const COLS = [
+  {key:"t", label:"Puesto"},
+  {key:"office", label:"Oficina"},
+  {key:"rank", label:"Valoración"},
+  {key:"fit", label:"Encaje"},
+  {key:"acc", label:"Acceso"},
+  {key:"madN", label:"Madrid año 1"},
+  {key:"intlN", label:"Mejor plaza fuera"},
+  {key:"hours", label:"Horas/sem"}
+];
+const OFFRANK = {front:0, middle:1, back:2, na:3};
+function sortVal(r,k){
+  if(k==="rank") return VORDER.indexOf(r.v)*100 - r.fit*10 - r.acc;
+  if(k==="office") return OFFRANK[r.office];
+  if(k==="intlN") return r.intl && r.intl.n!=null ? r.intl.n : null;
+  if(k==="t") return norm(r.t);
+  return r[k];
+}
+function renderTable(){
+  const {key, dir} = state.sort;
+  const desc = ["fit","acc","madN","intlN"].includes(key);
+  const rows = ROLES.filter(matches).slice().sort((a,b)=>{
+    const x = sortVal(a,key), y = sortVal(b,key);
+    if(x==null && y==null) return 0; if(x==null) return 1; if(y==null) return -1;
+    const c = typeof x==="string" ? x.localeCompare(y,"es") : x - y;
+    return (desc ? -c : c) * dir;
+  });
+  const head = `<thead><tr>${COLS.map(c=>`<th><button data-sort="${c.key}" ${c.key===key?`aria-sort="${dir===1?"ascending":"descending"}"`:""}>${c.label}${c.key===key?(dir===1?" ↓":" ↑"):""}</button></th>`).join("")}</tr></thead>`;
+  const body = rows.map(r=>`<tr>
+    <td><button class="linkish" data-goto="${r.id}">${esc(r.t)}</button><span class="tpath">${esc(r.side)} › ${esc(r.entity)}</span></td>
+    <td><span class="otag ${r.office==="na"?"":r.office}">${r.office==="na"?"Función":OFF[r.office].replace(" office","")}</span></td>
+    <td>${pill(r.v)}</td>
+    <td>${dots(r.fit,"","Encaje")}</td>
+    <td>${dots(r.acc,"acc","Acceso")}</td>
+    <td class="n">${esc(r.madTxt)}</td>
+    <td class="n">${r.intl?`${esc(r.intl.txt)} <span class="sub">${esc(r.intl.place)}</span>`:"—"}</td>
+    <td class="n">${esc(r.life.split("·")[0].replace(/h\/sem.*/,"").trim())}</td>
+  </tr>`).join("");
+  $("#cmp").innerHTML = head + `<tbody>${body || `<tr><td colspan="8" class="empty">Ningún puesto coincide con los filtros del árbol.</td></tr>`}</tbody>`;
+}
+function renderTiers(){
+  const t = tierLists();
+  const li = list => list.map(r=>`<li><button class="linkish" data-goto="${r.id}">${esc(r.t)}</button> <span class="sub">· ${esc(r.entity)}</span></li>`).join("");
+  $("#tiers").innerHTML = `
+    <div class="tier"><span>${pill("ambicioso")}</span><h3>Apuestas</h3><p>Máximo encaje y retribución. Requieren preparar tests de probabilidad y cálculo mental durante meses.</p><ol>${li(t.amb)}</ol></div>
+    <div class="tier"><span>${pill("objetivo")}</span><h3>Objetivos principales</h3><p>Donde tu perfil te da ventaja real. Aquí debe ir la mayor parte de tus candidaturas.</p><ol>${li(t.obj)}</ol></div>
+    <div class="tier"><span>${pill("plan-b")}</span><h3>Red de seguridad</h3><p>Accesibles y con encaje alto. Te meten en el sector y te dejan saltar a front office en 1–3 años.</p><ol>${li(t.safe)}</ol></div>`;
+}
+function renderAll(){ renderTree(); renderShort(); renderTable(); renderTiers(); }
+
+/* ===================== INTERACCIÓN ===================== */
+function setTab(tab){
+  state.tab = tab;
+  document.querySelectorAll("[data-tab]").forEach(b=>b.setAttribute("aria-selected", b.dataset.tab===tab));
+  ["arbol","tabla","plan"].forEach(t=>{ document.getElementById("view-"+t).hidden = t!==tab; });
+}
+function refocus(attr, val){
+  const el = document.querySelector(`[${attr}="${val}"]`);
+  if(el) el.focus({preventScroll:true});
+}
+function goto(id){
+  const r = BYID[id]; if(!r) return;
+  if(!matches(r)){
+    state.q=""; state.hideBack=false; state.highFit=false; state.verdicts=new Set(VORDER);
+    $("#q").value=""; $("#hideBack").checked=false; $("#highFit").checked=false; renderLegend();
+  }
+  r.path.forEach(p=>state.expanded.add(p.id));
+  state.open.add(id);
+  setTab("arbol");
+  renderAll(); persist();
+  const el = document.getElementById("r-"+id);
+  if(el){
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollIntoView({behavior: reduce?"auto":"smooth", block:"start"});
+    const h = el.querySelector(".role-head"); if(h) h.focus({preventScroll:true});
+  }
+}
+function applyFilterExpansion(){
+  if(!filtersActive()) return;
+  const exp = new Set();
+  ROLES.filter(matches).forEach(r=>r.path.forEach(p=>exp.add(p.id)));
+  state.expanded = exp;
+}
+
+document.addEventListener("click", e=>{
+  const t = e.target.closest("[data-toggle],[data-role],[data-goto],[data-save],[data-v],[data-tab],[data-sort]");
+  if(!t) return;
+  if(t.dataset.toggle){ const id=t.dataset.toggle; state.expanded.has(id)?state.expanded.delete(id):state.expanded.add(id); renderTree(); persist(); refocus("data-toggle",id); }
+  else if(t.dataset.role){ const id=t.dataset.role; state.open.has(id)?state.open.delete(id):state.open.add(id); renderTree(); refocus("data-role",id); }
+  else if(t.dataset.goto){ goto(t.dataset.goto); }
+  else if(t.dataset.save){ const id=t.dataset.save; state.saved.has(id)?state.saved.delete(id):state.saved.add(id); persist(); renderTree(); renderShort(); refocus("data-save",id); }
+  else if(t.dataset.v){ const v=t.dataset.v; state.verdicts.has(v)?state.verdicts.delete(v):state.verdicts.add(v); renderLegend(); applyFilterExpansion(); renderTree(); renderTable(); refocus("data-v",v); }
+  else if(t.dataset.tab){ setTab(t.dataset.tab); }
+  else if(t.dataset.sort){ const k=t.dataset.sort; state.sort = {key:k, dir: state.sort.key===k ? -state.sort.dir : 1}; renderTable(); refocus("data-sort",k); }
+});
+let qTimer;
+$("#q").addEventListener("input", e=>{
+  clearTimeout(qTimer);
+  qTimer = setTimeout(()=>{ state.q = e.target.value.trim(); applyFilterExpansion(); renderTree(); renderTable(); }, 120);
+});
+$("#hideBack").addEventListener("change", e=>{ state.hideBack=e.target.checked; applyFilterExpansion(); renderTree(); renderTable(); });
+$("#highFit").addEventListener("change", e=>{ state.highFit=e.target.checked; applyFilterExpansion(); renderTree(); renderTable(); });
+$("#expandAll").addEventListener("click", ()=>{
+  (function walk(ns){ ns.forEach(n=>{ state.expanded.add(n.id); if(!n.group) walk(n.children); }); })(TREE);
+  renderTree(); persist();
+});
+$("#collapseAll").addEventListener("click", ()=>{ state.expanded = new Set(); state.open = new Set(); renderTree(); persist(); });
+
+/* ===================== GUILLOCHÉ ===================== */
+function drawGuilloche(){
+  const c = document.getElementById("guilloche"); if(!c) return;
+  const dpr = window.devicePixelRatio||1, w = c.clientWidth, h = c.clientHeight;
+  if(!w||!h) return;
+  c.width = w*dpr; c.height = h*dpr;
+  const ctx = c.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,w,h);
+  const cs = getComputedStyle(document.documentElement);
+  const cx = w/2, cy = h/2, R = Math.min(w,h)*0.46;
+  function ring(color, alpha, K, base, amp, freq, freq2, amp2){
+    ctx.strokeStyle = color; ctx.globalAlpha = alpha; ctx.lineWidth = .6;
+    for(let k=0;k<K;k++){
+      const ph = k*2*Math.PI/(K*freq);
+      ctx.beginPath();
+      for(let i=0;i<=900;i++){
+        const a = i/900*2*Math.PI;
+        const r = R*(base + amp*Math.cos(freq*a+ph) + amp2*Math.sin(freq2*a - ph*3));
+        const x = cx + r*Math.cos(a), y = cy + r*Math.sin(a);
+        i ? ctx.lineTo(x,y) : ctx.moveTo(x,y);
+      }
+      ctx.stroke();
+    }
+  }
+  ring(cs.getPropertyValue("--accent").trim(), .32, 22, .74, .16, 9, 27, .03);
+  ring(cs.getPropertyValue("--brass").trim(), .30, 16, .40, .10, 7, 21, .025);
+  ctx.globalAlpha = 1;
+}
+const mq = matchMedia("(prefers-color-scheme: dark)");
+mq.addEventListener && mq.addEventListener("change", drawGuilloche);
+new MutationObserver(drawGuilloche).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
+let rz; addEventListener("resize", ()=>{ clearTimeout(rz); rz=setTimeout(drawGuilloche,150); });
+
+/* ===================== ARRANQUE ===================== */
+renderLegend();
+renderAll();
+drawGuilloche();
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(drawGuilloche);
+const h = (location.hash||"").replace("#","");
+if(h && BYID[h.replace(/^r-/,"")]) goto(h.replace(/^r-/,""));
+</script>
